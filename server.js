@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Message = require('./message.js');
+var Message = require('./logging/message.js');
 
 var app = express();
 app.set('port', process.env.PORT || 8080);
