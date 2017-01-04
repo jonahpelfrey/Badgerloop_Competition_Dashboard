@@ -9,7 +9,9 @@
     "imagemin-gifsicle": "^5.1.0",
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-optipng": "^5.2.1",
-    "imagemin-pngquant": "^5.0.0"
+    "imagemin-pngquant": "^5.0.0",
+    "jsriffle": "^0.4.9",
+    "ngriffle": "^0.4.9"
   },
   "devDependencies": {
     "grunt": "^0.4.1",

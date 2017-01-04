@@ -13,9 +13,12 @@ angular
     'ui.router',
     'ui.bootstrap',
     'angular-loading-bar',
+    'ngRiffle',
   ])
+
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
-    
+    //$riffleProvider.setDomain("xs.node");
+    //$riffleProvider.setFabric("ws://badgerloop-nuc-1:9000");
     $ocLazyLoadProvider.config({
       debug:false,
       events:true,
@@ -153,6 +156,15 @@ angular
        templateUrl:'views/ui-elements/grid.html',
        url:'/grid'
    })
-  }]);
+  }])
+  .config(function($riffleProvider) {
+    $riffleProvider.setDomain("xs.node");
+    $riffleProvider.setFabric("ws://badgerloop-nuc-1:9000");
+    // $riffleProvider.setFabricLocal(); FOR LOCAL NODE USE
+  })
+  .run(function($riffle){
+        //$riffle.setToken("APP_TOKEN");
+        $riffle.join();
+  });
 
     
