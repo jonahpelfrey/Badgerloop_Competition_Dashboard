@@ -6,6 +6,7 @@
     "url": "https://github.com/start-angular/sb-admin-angular"
   },
   "dependencies": {
+    "angular-nvd3": "^1.0.9",
     "imagemin-gifsicle": "^5.1.0",
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-optipng": "^5.2.1",

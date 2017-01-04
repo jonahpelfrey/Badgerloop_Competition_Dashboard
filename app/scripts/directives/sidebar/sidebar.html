@@ -2,13 +2,24 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav in" id="side-menu">
             <!-- <sidebar-search></sidebar-search> -->
+
+            <!-- Badgerloop Sidebar Menu -->
+            <li ui-sref-active="active">
+                <a ui-sref="dashboard.telemetry"><i class="fa fa-bar-chart-o fa-fw"></i> Telemetry</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="dashboard.hallbach"><i class="fa fa-dashboard fa-fw"></i> Hallbach</a>
+            </li>
+
+            <br></br>
+
+            <!-- Template Sidebar Menu -->
             <li ui-sref-active="active">
                 <a ui-sref="dashboard.home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
             </li>
+
             <li ui-sref-active="active">
-
                 <a ui-sref="dashboard.chart"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span></span></a>
-
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="dashboard.table"><i class="fa fa-table fa-fw"></i> Tables</a>

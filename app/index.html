@@ -36,11 +36,19 @@
     <!-- endbower -->
     <!-- endbuild -->
     
+
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
     <script src="js/sb-admin-2.js"></script>
     <!-- endbuild -->
 
+    <!-- D3 chart library -->
+    <meta charset="utf-8">  <!-- it's important for d3.js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/build/nv.d3.js"></script> <!-- or use another assembly -->
+    <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+    <link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.css">
 
     <!-- jsRiffle -->
     <script src="bower_components/jsRiffle/release/jsRiffle.min.js"></script>

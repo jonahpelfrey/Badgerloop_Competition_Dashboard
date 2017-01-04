@@ -14,11 +14,10 @@ angular
     'ui.bootstrap',
     'angular-loading-bar',
     'ngRiffle',
+    'nvd3',
   ])
 
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
-    //$riffleProvider.setDomain("xs.node");
-    //$riffleProvider.setFabric("ws://badgerloop-nuc-1:9000");
     $ocLazyLoadProvider.config({
       debug:false,
       events:true,
@@ -92,6 +91,46 @@ angular
               'scripts/directives/chat/chat.js',
               'scripts/directives/dashboard/stats/stats.js'
               ]
+            })
+          }
+        }
+      })
+      .state('dashboard.telemetry',{
+        url:'/telemetry',
+        controller: 'MainCtrl',
+        templateUrl:'views/dashboard/telemetry.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'chart.js',
+              files:[
+                'bower_components/angular-chart.js/dist/angular-chart.min.js',
+                'bower_components/angular-chart.js/dist/angular-chart.css'
+              ]
+            }),
+            $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/chartContoller.js']
+            })
+          }
+        }
+      })
+      .state('dashboard.hallbach',{
+        url:'/hallbach',
+        controller: 'MainCtrl',
+        templateUrl:'views/dashboard/hallbach.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'chart.js',
+              files:[
+                'bower_components/angular-chart.js/dist/angular-chart.min.js',
+                'bower_components/angular-chart.js/dist/angular-chart.css'
+              ]
+            }),
+            $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:['scripts/controllers/chartContoller.js']
             })
           }
         }
