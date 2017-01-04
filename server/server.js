@@ -12,8 +12,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Dev Connection
-mongoose.connect('mongodb://localhost/bloop');
+// mongoose.connect('mongodb://localhost/bloop', function(error) {
+// 	if(error) console.log(error);
+// 	else console.log('Connected to development database');
+// });
 
+// Competition Connection
+var MONGOLAB_URI = 'mongodb://heroku_wrpm8z2c:adbk172h0lfvugpggqt4hdr2d9@ds153815.mlab.com:53815/heroku_wrpm8z2c';
+
+mongoose.connect(MONGOLAB_URI, function(error) {
+	if(error) console.log(error);
+	else console.log('Connected to competition database');
+});
 // Setup Router
 var router = express.Router();
 
