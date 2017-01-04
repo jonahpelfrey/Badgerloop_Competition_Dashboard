@@ -7,7 +7,7 @@ var Message = require('./logging/message.js');
 
 var app = express();
 app.set('port', process.env.PORT || 8080);
-app.use(express.static(path.join(__dirname,  'logging/views')));
+app.use(express.static(path.join(__dirname,  '/logging')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
