@@ -12,7 +12,13 @@
     "imagemin-optipng": "^5.2.1",
     "imagemin-pngquant": "^5.0.0",
     "jsriffle": "^0.4.9",
-    "ngriffle": "^0.4.9"
+    "ngriffle": "^0.4.9",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "http": "0.0.0",
+    "mongoose": "^4.7.6",
+    "path": "^0.12.7",
+    "bower": "1.x"
   },
   "devDependencies": {
     "grunt": "^0.4.1",
@@ -50,6 +56,6 @@
     "test": "grunt test",
     "start": "grunt serve",
     "dist": "grunt serve:dist",
-    "postinstall": "bower install"
+    "postinstall": "./node_modules/bower/bin/bower install"
   }
 }
