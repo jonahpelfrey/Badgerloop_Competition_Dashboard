@@ -13,7 +13,7 @@ app.config(function($routeProvider) {
 	});
 });
 
-app.controller('LogController', function($scope, socket) {
+app.controller('LogController', function($scope) {
 	$scope.newCustomers = [];
 	$scope.currentCustomer = {};
 	$scope.joinEnable = true;
