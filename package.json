@@ -7,18 +7,19 @@
   },
   "dependencies": {
     "angular-nvd3": "^1.0.9",
+    "body-parser": "^1.15.2",
+    "bower": "1.x",
+    "express": "^4.14.0",
+    "http": "0.0.0",
     "imagemin-gifsicle": "^5.1.0",
     "imagemin-jpegtran": "^5.0.2",
     "imagemin-optipng": "^5.2.1",
     "imagemin-pngquant": "^5.0.0",
     "jsriffle": "^0.4.9",
-    "ngriffle": "^0.4.9",
-    "body-parser": "^1.15.2",
-    "express": "^4.14.0",
-    "http": "0.0.0",
     "mongoose": "^4.7.6",
+    "ngriffle": "^0.4.9",
     "path": "^0.12.7",
-    "bower": "1.x"
+    "socket.io": "^1.7.2"
   },
   "devDependencies": {
     "grunt": "^0.4.1",

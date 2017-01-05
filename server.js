@@ -1,24 +1,26 @@
-var http = require('http');
-var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Message = require('./log/models/message.js');
 
+var express = require('express');
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 app.set('port', process.env.PORT || 8000);
 app.use(express.static(path.join(__dirname,  '/log/client')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Competition Connection ==========
+// Competition Connection
 
 mongoose.connect('mongodb://localhost/badgerloop', function(error) {
 	if(error) console.log(error);
 	else console.log('Connected to competition database');
 });
 
-// Hosted Connection ===============
+// Hosted Connection
 
 // var MONGOLAB_URI = 'mongodb://heroku_wrpm8z2c:adbk172h0lfvugpggqt4hdr2d9@ds153815.mlab.com:53815/heroku_wrpm8z2c';
 
@@ -40,7 +42,7 @@ router.get('/', function(req, res) {
 	res.json({ message: 'Message Logging API' });
 });
 
-// Route for CAN messages ========================================
+// Route for CAN messages
 router.route('/messages')
 	.post(function(req, res) {
 
@@ -53,6 +55,8 @@ router.route('/messages')
 			else { res.json({ message: 'Message created' }); }
 		});
 
+		io.sockets.emit('new-entry', {});
+
 	})
 
 	.get(function(req, res) {
@@ -62,9 +66,9 @@ router.route('/messages')
 		});
 	});
 
-// Register route ================================================
-app.use('/logging', router);
+// Register base route
+app.use('/logger', router);
 
-http.createServer(app).listen(app.get('port'), function() {
-	console.log('Collection Server listening on port ' + app.get('port'));
+server.listen(8000, function() {
+	console.log('Collection Server running on port: 8000');
 });
