@@ -3,11 +3,11 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Message = require('./logging/message.js');
+var Message = require('./log/models/message.js');
 
 var app = express();
-app.set('port', process.env.PORT || 8080);
-app.use(express.static(path.join(__dirname,  '/logging')));
+app.set('port', process.env.PORT || 8000);
+app.use(express.static(path.join(__dirname,  '/log/client')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
