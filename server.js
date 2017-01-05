@@ -69,6 +69,6 @@ router.route('/messages')
 // Register base route
 app.use('/logger', router);
 
-server.listen(8000, function() {
+server.listen(app.get('port'), function() {
 	console.log('Collection Server running on port: 8000');
 });
