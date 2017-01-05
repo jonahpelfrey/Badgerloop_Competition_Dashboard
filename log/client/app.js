@@ -1,4 +1,4 @@
-var app = angular.module('logger', ['ngRoute', 'ngResource']);
+var app = angular.module('logger', ['ngRoute', 'ngResource', 'ngRiffle']);
 
 app.config(function($routeProvider) {
 	'use strict';
@@ -11,6 +11,15 @@ app.config(function($routeProvider) {
 	.otherwise({
 		redirectTo: '/'
 	});
+	// .config(function($riffleProvider) {
+  	//   $riffleProvider.setDomain("xs.node");
+  	//   $riffleProvider.setFabric("ws://badgerloop-nuc-1:9000");
+  	//   $riffleProvider.setFabricLocal(); FOR LOCAL NODE USE
+  	// })
+  	// .run(function($riffle){
+  	//       //$riffle.setToken("APP_TOKEN");
+  	//       $riffle.join();
+  	// });
 });
 
 app.controller('LogController', function($scope, $http, msgService, socket) {
