@@ -9,12 +9,17 @@ body {
 }
 
 .tinfo {
-	height: 575px;
+	height: 650px;
 	overflow-y: scroll;
 }
 
 .contact {
-	height: 625px;
+	height: 450px;
+	overflow-y: scroll;
+}
+
+.saved {
+	height: 250px;
 	overflow-y: scroll;
 }
 

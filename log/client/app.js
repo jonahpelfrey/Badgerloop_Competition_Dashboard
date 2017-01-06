@@ -25,10 +25,22 @@ app.config(function($routeProvider) {
 app.controller('LogController', function($scope, $http, msgService, socket) {
 	
 	$scope.messages = msgService.query();
+	$scope.saved = [];
 
 	socket.on('new-entry', function() {
 		$scope.messages = msgService.query();
 	});
+
+	$scope.remove = function(msg) {
+		var index = $scope.saved.indexOf(msg);
+		$scope.saved.splice(index, 1);
+	};
+
+	$scope.add = function(msg) {
+		if($scope.saved.indexOf(msg) == -1) {
+			$scope.saved.push(msg);
+		}
+	};
 }); 
 
 app.factory('msgService', function($resource) {
