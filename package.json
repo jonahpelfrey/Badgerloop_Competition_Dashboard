@@ -17,6 +17,7 @@
     "imagemin-pngquant": "^5.0.0",
     "jsriffle": "^0.4.9",
     "mongoose": "^4.7.6",
+    "ng-table": "^3.0.1",
     "ngriffle": "^0.4.9",
     "path": "^0.12.7",
     "socket.io": "^1.7.2"

@@ -7,8 +7,54 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('MainCtrl', function($scope,$position) {
+  .controller('MainCtrl', function($scope,$position,NgTableParams) {
 
+    //Initialize scope variables
+    $scope.messages = [{module: "MCM", value: 50},{module: "VNM", value: 20}];
+    $scope.data = sinAndCos(); //data for graph
+
+///////////////////////////HELPER FUNCTIONS///////////////////////////
+
+ // These functions will be used to parse and format raw CAN message strings
+ 
+        /*Random Data Generator */
+        function sinAndCos() {
+            var sin = [],sin2 = [],
+                cos = [];
+
+            //Data is represented as an array of {x,y} pairs.
+            for (var i = 0; i < 100; i++) {
+                sin.push({x: i, y: Math.sin(i/10)});
+                sin2.push({x: i, y: i % 10 == 5 ? null : Math.sin(i/10) *0.25 + 0.5});
+                cos.push({x: i, y: .5 * Math.cos(i/10+ 2) + Math.random() / 10});
+            }
+
+            //Line chart data should be sent as an array of series objects.
+            return [
+                {
+                    values: sin,      //values - represents the array of {x,y} data points
+                    key: 'Sine Wave', //key  - the name of the series.
+                    color: '#ff7f0e'  //color - optional: choose your own line color.
+                },
+                {
+                    values: cos,
+                    key: 'Cosine Wave',
+                    color: '#2ca02c'
+                }
+                // {
+                //     values: sin2,
+                //     key: 'Another sine wave',
+                //     color: '#7777ff'
+                // }
+            ];
+        };
+//////////////////////////CAN MESSAGE TABLE ///////////////////////////
+    
+    $scope.tableParams = new NgTableParams({}, { dataset: $scope.messages});
+
+
+
+//////////////////////////GRAPH CONGFIGURAION///////////////////////////
   	 $scope.options = {
             chart: {
                 type: 'lineChart',
@@ -62,39 +108,5 @@ angular.module('sbAdminApp')
                     'margin': '10px 13px 0px 7px'
                 }
             }
-        };
-
-        $scope.data = sinAndCos();
-
-        /*Random Data Generator */
-        function sinAndCos() {
-            var sin = [],sin2 = [],
-                cos = [];
-
-            //Data is represented as an array of {x,y} pairs.
-            for (var i = 0; i < 100; i++) {
-                sin.push({x: i, y: Math.sin(i/10)});
-                sin2.push({x: i, y: i % 10 == 5 ? null : Math.sin(i/10) *0.25 + 0.5});
-                cos.push({x: i, y: .5 * Math.cos(i/10+ 2) + Math.random() / 10});
-            }
-
-            //Line chart data should be sent as an array of series objects.
-            return [
-                {
-                    values: sin,      //values - represents the array of {x,y} data points
-                    key: 'Sine Wave', //key  - the name of the series.
-                    color: '#ff7f0e'  //color - optional: choose your own line color.
-                },
-                {
-                    values: cos,
-                    key: 'Cosine Wave',
-                    color: '#2ca02c'
-                }
-                // {
-                //     values: sin2,
-                //     key: 'Another sine wave',
-                //     color: '#7777ff'
-                // }
-            ];
         };
   });

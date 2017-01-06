@@ -15,6 +15,7 @@ angular
     'angular-loading-bar',
     'ngRiffle',
     'nvd3',
+    'ngTable',
   ])
 
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
@@ -131,6 +132,29 @@ angular
             $ocLazyLoad.load({
                 name:'sbAdminApp',
                 files:['scripts/controllers/chartContoller.js']
+            })
+          }
+        }
+      })
+      .state('dashboard.can',{
+        url:'/can',
+        controller: 'MainCtrl',
+        templateUrl:'views/dashboard/can.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'chart.js',
+              files:[
+                'js/ngTable.js',
+                'styles/ngTable.css'
+              ]
+            }),
+            $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                'scripts/controllers/chartContoller.js',
+                'scripts/controllers/main.js'
+                ]
             })
           }
         }
