@@ -54,7 +54,8 @@ router.route('/messages')
 			if(err) res.send(err);
 			else {
 				res.json({ message: 'Message created' });
-				 
+				io.sockets.emit('new-entry', {});
+
 			}
 		});
 
