@@ -15,19 +15,19 @@ app.use(bodyParser.json());
 
 // Competition Connection
 
-// mongoose.connect('mongodb://localhost/badgerloop', function(error) {
-// 	if(error) console.log(error);
-// 	else console.log('Connected to competition database');
-// });
+mongoose.connect('mongodb://localhost/badgerloop', function(error) {
+	if(error) console.log(error);
+	else console.log('Connected to competition database');
+});
 
 // Hosted Connection
 
-var MONGOLAB_URI = 'mongodb://heroku_wrpm8z2c:adbk172h0lfvugpggqt4hdr2d9@ds153815.mlab.com:53815/heroku_wrpm8z2c';
+// var MONGOLAB_URI = 'mongodb://heroku_wrpm8z2c:adbk172h0lfvugpggqt4hdr2d9@ds153815.mlab.com:53815/heroku_wrpm8z2c';
 
-mongoose.connect(MONGOLAB_URI, function(error) {
-	if(error) console.log(error);
-	else console.log('Connected to hosted database');
-});
+// mongoose.connect(MONGOLAB_URI, function(error) {
+// 	if(error) console.log(error);
+// 	else console.log('Connected to hosted database');
+// });
 
 // Router Setup
 var router = express.Router();
@@ -54,7 +54,7 @@ router.route('/messages')
 			if(err) res.send(err);
 			else {
 				res.json({ message: 'Message created' });
-				io.sockets.emit('new-entry', {}); 
+				 
 			}
 		});
 
