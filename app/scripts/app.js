@@ -16,6 +16,7 @@ angular
     'ngRiffle',
     'nvd3',
     'ngTable',
+    'angularjs-gauge',
   ])
 
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
