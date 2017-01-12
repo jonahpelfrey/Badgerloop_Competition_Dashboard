@@ -13,7 +13,21 @@ angular.module('sbAdminApp')
 
     
     $scope.progress = []
-    $scope.messages = [{module: "MCM", value: 50},{module: "VNM", value: 20}];
+    $scope.messages = [
+        {module: "MCM", timestamp: 2, value: 30},
+        {module: "MCM", timestamp: 2, value: 30},
+        {module: "MCM", timestamp: 2, value: 30},
+        {module: "MCM", timestamp: 2, value: 30},
+        {module: "MCM", timestamp: 2, value: 30},
+        {module: "MCM", timestamp: 2, value: 30},
+        {module: "MCM", timestamp: 2, value: 30},
+        {module: "VNM", timestamp: 2, value: 20}
+
+    ];
+    $scope.sortType = 'module';
+    $scope.sortReverse = false;
+    $scope.messageSearch = '';
+
     $scope.data = sinAndCos(); //data for graph
     $scope.title = 'My gauge';
     $scope.titleFontColor = 'blue';

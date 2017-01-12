@@ -1,25 +1,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="psize panel panel-default">
-                    <div class="panel-heading">Actions</div>
-                    <div class="panel-body">
-                        <button type="button" class="btn btn-primary btn-block"><i class="fa fa-heart"></i>
-                        </button>
-                        </button>
-                        <button type="button" class="btn btn-success btn-block"><i class="fa fa-play"></i>
-                        </button>
-                        </button>
-                        <button type="button" class="btn btn-warning btn-block"><i class="fa fa-times"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-block"><i class="fa fa-stop"></i>
-                        </button>
-                        <button type="button" class="btn btn-info btn-block"><i class="fa fa-check"></i></button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="psize panel panel-default">
-                    <div class="panel-heading">Compose CAN Message</div>
+                    <div class="panel-heading" style="text-align: center;">Compose CAN Message</div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label>CAN Message Options</label>
@@ -68,9 +50,17 @@
 
                 </div>
             </div>
+            <div class="col-md-8">
+                <div class="psize panel panel-default">
+                    <div class="panel-heading" style="text-align: center;">Sent Messages</div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
         </div>
                     
-    <div class="row">
+    <!-- <div class="row">
         <div class="col-sm-12">
         <div class="panel panel-default">
         <div class="panel-heading">CAN Messages</div>
@@ -83,6 +73,60 @@
             </tr>
         </table>
         </div>
+        </div>
+    </div> -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="">
+                    <h4>Message Archive</h4>
+                </div>
+                <form>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                            <input type="text" class="form-control" placeholder="Search messages" ng-model="messageSearch">
+                        </div>
+                    </div>
+                </form>
+                <div class="panel-body contact">
+                
+                <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                        <th>
+                            <a href="#" ng-click="sortType = 'module'; sortReverse = !sortReverse">
+                            Module
+                            <span ng-show="sortType == 'module' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'module' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="#" ng-click="sortType = 'timestamp'; sortReverse = !sortReverse">
+                            Timestamp
+                            <span ng-show="sortType == 'timestamp' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'timestamp' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </th>
+                        <th>
+                            <a href="#" ng-click="sortType = 'value'; sortReverse = !sortReverse">
+                            Data
+                            <span ng-show="sortType == 'value' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'value' && sortReverse" class="fa fa-caret-up"></span>
+                            </a>
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="msg in messages | orderBy: sortType:sortReverse | filter: messageSearch">
+                        <td><span class="label label-info">{{msg.module}}</span></td>
+                        <td>{{msg.timestamp}}</td>
+                        <td>{{msg.value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
         </div>
     </div>
 

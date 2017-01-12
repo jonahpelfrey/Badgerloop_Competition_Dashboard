@@ -361,6 +361,11 @@ table.dataTable thead .sorting:after {
     height: 275px;
 }
 
+.contact {
+    height: 350px;
+    overflow-y: scroll;
+}
+
 select:not([multiple]) {
     -webkit-appearance: none;
     -moz-appearance: none;
