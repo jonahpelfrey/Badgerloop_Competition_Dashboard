@@ -10,11 +10,27 @@ angular.module('sbAdminApp')
   .controller('MainCtrl', function($scope,$position,NgTableParams) {
 
     //Initialize scope variables
+    $scope.progress = []
     $scope.messages = [{module: "MCM", value: 50},{module: "VNM", value: 20}];
     $scope.data = sinAndCos(); //data for graph
 
 ///////////////////////////HELPER FUNCTIONS///////////////////////////
 
+
+$scope.get_progress = function() {
+    $scope.stacked = [];
+    var types = ['success', 'info', 'warning', 'danger'];
+
+    for (var i = 0, n = Math.floor(Math.random() * 4 + 1); i < n; i++) {
+        var index = Math.floor(Math.random() * 4);
+        $scope.progress.push({
+          value: Math.floor(Math.random() * 30 + 1),
+          type: types[index]
+        });
+    }
+  };
+
+  $scope.get_progress();
  // These functions will be used to parse and format raw CAN message strings
  
         /*Random Data Generator */

@@ -21,7 +21,9 @@
     "angular-chart.js": "~0.5.2",
     "ngRiffle": "^0.4.9",
     "angular-nvd3": "^1.0.9",
-    "angularjs-gauge": "^1.0.0"
+    "angularjs-gauge": "^1.0.0",
+    "pg.progress-bars": "^0.2.1",
+    "angular-material": "^1.1.1"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",
