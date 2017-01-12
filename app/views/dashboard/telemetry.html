@@ -1,68 +1,367 @@
-
 <div class="row">
-    <div class="panel panel-default">
-<!--         <uib-progress><uib-bar ng-repeat="bar in stacked track by $index" value="progress.value" type="{{progress.type}}"><span ng-hide="progress.value < 5">{{progress.value}}%</span></uib-bar></uib-progress> -->
-        <ng-gauge size="200" type="full" thick="30" value="21.2" cap="butt" label="Velocity"  foreground-color="#b31217" background-color="#ffffff" append="mph"></ng-gauge>
-        <ng-gauge size="200" type="full" thick="30" value="68.2" cap="butt" label="Something"  foreground-color="#b31217" background-color="#ffffff" append="mph"></ng-gauge>
-         <ng-gauge size="200" type="full" thick="30" value="68.2" cap="butt" label="Something else"  foreground-color="#b31217" background-color="#ffffff" append="mph"></ng-gauge>
+    <div class="col-sm-12" id="line-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
+            Pod run progress bar can go here (Obviously we'll make it thicker)
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">
+            <!--         <uib-progress><uib-bar ng-repeat="bar in stacked track by $index" value="progress.value" type="{{progress.type}}"><span ng-hide="progress.value < 5">{{progress.value}}%</span></uib-bar></uib-progress> -->
+                <div justgage
+                title="Velocity" title-font-color="black"
+                value="135" value-font-color="black"
+                width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+                value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+                label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+                maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+                min="0" max="250"
+                hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+                gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+                show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+                shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+                level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+                label="mph" label-font-color="black"
+                start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+                refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+                donut="true" donut-start-angle="{{donutStartAngle}}"
+                counter="{{counter}}" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+                human-friendly="{{humanFriendly}}" human-friendly-decimal="{{humanFriendlyDecimal}}"
+                text-renderer="textRenderer">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Temperature" title-font-color="black"
+            value="90" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="200"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="C" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="true" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+            </div>
+        </div>
+    </div>
+        <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Voltage" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="true" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Current" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="true" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+            </div>
+        </div>
+    </div>
+        <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Dial5" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="true" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+            </div>
+        </div>
+    </div>
+        <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Dial6" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="true" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+            </div>
+        </div>
     </div>
 </div>
 
 
 <div class="row">
-    <div class="col-lg-6 col-sm-12" id="line-chart" ng-controller="ChartCtrl">
+        <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Gage1" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="false" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" pointer="true" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" pointer="true" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+        </div>
+    </div>
+</div>
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Gage2" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="false" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" pointer="true" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" pointer="true" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+        </div>
+    </div>
+</div>
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Gage3" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="false" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" pointer="true" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" pointer="true" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+        </div>
+    </div>
+</div>
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Gage4" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="false" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" pointer="true" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" pointer="true" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+        </div>
+    </div>
+</div>
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Gage5" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="false" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" pointer="true" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" pointer="true" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+        </div>
+    </div>
+</div>
+    <div class="col-md-2">
+        <div class="panel panel-default" ng-controller="MainCtrl">   
+            <div justgage
+            title="Gage6" title-font-color="black"
+            value="135" value-font-color="black"
+            width="150" height="150" relative-gauge-size="{{relativeGaugeSize}}"
+            value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+            label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+            maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+            min="0" max="250"
+            hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+            gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+            show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+            shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+            level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+            label="mph" label-font-color="black"
+            start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+            refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+            donut="false" donut-start-angle="{{donutStartAngle}}"
+            counter="{{counter}}" pointer="true" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+            human-friendly="{{humanFriendly}}" pointer="true" human-friendly-decimal="{{humanFriendlyDecimal}}"
+            text-renderer="textRenderer">
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-sm-12" id="line-chart" ng-controller="ChartCtrl">
         <div class="panel panel-default">
-            <div class="panel-heading">Velocity</div>
+            <div class="panel-heading">Telemetry</div>
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>More</th>
+                        <th>Values</th>
+                        <th>With</th>
+                        <th>Color</th>
+                        <th>Status</th>
+                        <th>Indicators</th>
+                        <th>Can</th>
+                        <th>Go</th>
+                        <th>Here</th>
+                    </tr>
+                    <tr>
+                        <td>100</td>
+                        <td>100</td>
+                        <td><button type="button" class="btn btn-outline btn-success">100</button></td>
+                        <td>100</td>
+                        <td>100</td>
+                        <td>100</td>
+                        <td>100</td>
+                        <td>100</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>100</td>
+                        <td>100</td>
+                        <td><button type="button" class="btn btn-outline btn-success">100</button></td>
+                        <td>100</td>
+                        <td>100</td>
+                        <td>100</td>
+                        <td>100</td>
+                        <td>100</td>
+                        <td>100</td>
+                    </tr>
+            </table>
+<!--             <nvd3 options="options" data="data"></nvd3> -->
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12" id="line-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
             <nvd3 options="options" data="data"></nvd3>
         </div>
-    </div>
-    <div class="col-lg-6 col-sm-12" id="line-chart" ng-controller="ChartCtrl">
-        <div class="panel panel-default">
-            <div class="panel-heading">Accelleration</div>
-            <nvd3 options="accelerationOptions" data="accelerationData"></nvd3>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-lg-6 col-sm-12" id="doughnut-chart" ng-controller="ChartCtrl">
-        <div class="panel panel-default">
-            <div class="panel-heading">Doughnut Chart</div>
-            <div class="panel-body">
-            <canvas id="doughnut" class="chart chart-doughnut chart-xs" data="donut.data" labels="donut.labels" legend="false"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-12" id="radar-chart" ng-controller="ChartCtrl">
-        <div class="panel panel-default">
-            <div class="panel-heading">Radar Chart</div>
-            <div class="panel-body">
-                <canvas id="area" class="chart chart-radar" data="radar.data" labels="radar.labels" click="onClick"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-12" id="pie-chart" ng-controller="ChartCtrl">
-        <div class="panel panel-default">
-            <div class="panel-heading">Pie Chart</div>
-            <div class="panel-body">
-                <canvas id="pie" class="chart chart-pie chart-xs" data="pie.data" labels="pie.labels"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6 col-sm-12" id="polar area-chart" ng-controller="ChartCtrl">
-      <div class="panel panel-default">
-        <div class="panel-heading">Polar Area Chart</div>
-        <div class="panel-body">
-          <canvas id="polar" class="chart chart-polar-area" data="polar.data" labels="polar.labels"></canvas>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-6 col-sm-12" id="base-chart" ng-controller="ChartCtrl">
-        <div class="panel panel-default">
-            <div class="panel-heading">Dynamic Chart</div>
-            <div class="panel-body">
-            <canvas id="base" class="chart chart-base" chart-type="dynamic.type" data="dynamic.data" labels="dynamic.labels" legend="true"></canvas>
-            </div>
-        </div>
-        <button type="button" class="btn btn-primary pull-right" ng-click="dynamic.toggle()">Toggle</button>
     </div>
 </div>

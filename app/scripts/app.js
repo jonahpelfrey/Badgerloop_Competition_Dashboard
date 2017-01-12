@@ -16,7 +16,7 @@ angular
     'ngRiffle',
     'nvd3',
     'ngTable',
-    'angularjs-gauge',
+    'frapontillo.gage',
   ])
 
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
@@ -25,7 +25,7 @@ angular
       events:true,
     });
 
-    $urlRouterProvider.otherwise('/dashboard/home');
+    $urlRouterProvider.otherwise('/dashboard/admin');
 
     $stateProvider
       .state('dashboard', {
@@ -112,7 +112,10 @@ angular
             }),
             $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/chartContoller.js']
+                files:[
+                'scripts/controllers/chartContoller.js',
+                'scripts/controllers/main.js'
+              ]
             })
           }
         }
@@ -132,15 +135,17 @@ angular
             }),
             $ocLazyLoad.load({
                 name:'sbAdminApp',
-                files:['scripts/controllers/chartContoller.js']
+                files:[
+                'scripts/controllers/chartContoller.js',
+                'scripts/controllers/main.js']
             })
           }
         }
       })
-      .state('dashboard.can',{
-        url:'/can',
+      .state('dashboard.admin',{
+        url:'/admin',
         controller: 'MainCtrl',
-        templateUrl:'views/dashboard/can.html',
+        templateUrl:'views/dashboard/admin.html',
         resolve: {
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
