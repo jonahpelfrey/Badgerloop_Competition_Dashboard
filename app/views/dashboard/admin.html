@@ -11,22 +11,26 @@
                                 <option>Stop</option>
                             </select>
                         </div>
+
                         <label class="checkbox-inline"><input type="checkbox" ng-model="custom">Custom Message</label>
+
                         <div class="input-group" style="padding-top: 10px;">
                             <span class="input-group-addon" style="width: 82px;">Module</span>
-                            <select class="form-control" ng-disabled="!custom" style="width: 220px;">
-                                <option>MCM</option>
-                                <option>VSM</option>
-                                <option>VNM</option>
-                                <option>BCM1</option>
-                                <option>BCM2</option>
+                            <select class="form-control" ng-change="changeModule()" ng-disabled="!custom" style="width: 220px;" ng-model="selectedModule" ng-options="m.name for m in modules">
+                                
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" style="width: 82px;">Size</span>
+                            <select class="form-control" ng-change="changeSize()" ng-disabled="!custom" style="width: 220px;" ng-model="selectedSize" ng-options="s.name for s in msgSizes">
+                                
                             </select>
                         </div>
                        
                         <form>
                         <div class="input-group">
                             <span class="input-group-addon" style="width: 82px;">Message</span>
-                            <input ng-disabled="!custom" type="text" class="form-control" name="fname" placeholder="0xFFFFFFFF" style="width: 220px;">
+                            <input ng-disabled="!custom" type="text" class="form-control" name="fname" ng-model="customMessage" style="width: 220px;">
                         </div>
                         <button class="btn btn-primary btn-block" style="margin-top: 15px; width: 302px;">Send</button>
                         </form>

@@ -14,6 +14,41 @@ angular.module('sbAdminApp')
     
     $scope.progress = [];
     $scope.custom = false;
+    $scope.modules = [
+        {name: 'NONE', mask: 'FFF'},
+        {name: 'VNM', mask: '001'},
+        {name: 'VSM', mask: '002'},
+        {name: 'BCM', mask: '004'},
+        {name: 'MCM', mask: '008'},
+        {name: 'WCM', mask: '010'},
+        {name: 'BMS', mask: '020'},
+        {name: 'ALL', mask: '400'}
+    ];
+
+    $scope.msgSizes = [
+        {name: '0', mask: '0000', data: ''},
+        {name: '1', mask: '0001', data: 'FF'},
+        {name: '2', mask: '0010', data: 'FFFF'},
+        {name: '3', mask: '0011', data: 'FFFFFF'},
+        {name: '4', mask: '0100', data: 'FFFFFFFF'},
+        {name: '5', mask: '0101', data: 'FFFFFFFFFF'},
+        {name: '6', mask: '0110', data: 'FFFFFFFFFFFF'},
+        {name: '7', mask: '0111', data: 'FFFFFFFFFFFFFF'},
+        {name: '8', mask: '1000', data: 'FFFFFFFFFFFFFFFF'},
+    ];
+
+    $scope.selectedModule = $scope.modules[0];
+    $scope.selectedSize = $scope.msgSizes[0];
+    $scope.customMessage = '0xFFFFFFFF';
+
+    $scope.changeModule = function() {
+        $scope.customMessage = '0x' + $scope.selectedModule.mask + 'FFFFF';
+    }
+
+    $scope.changeSize = function() {
+        $scope.customMessage = '0x' + $scope.selectedModule.mask + $scope.selectedSize.mask + $scope.selectedSize.data;
+    }
+
     $scope.sentMessages = [];
     $scope.messages = [
         {module: "MCM", timestamp: 2, value: 30},
