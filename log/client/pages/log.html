@@ -13,6 +13,7 @@
 					<th>Timestamp</th>
 					<th>Data</th>
 					<th>Select</th>
+					<th>Parse</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -21,6 +22,7 @@
 					<td>{{msg.timestamp}}</td>
 					<td>{{msg.data}}</td>
 					<td><button class="btn btn-success btn-sm" ng-click="add(msg)">Save</button></td>
+					<td><button class="btn btn-primary btn-sm" ng-click="add(msg)">Parse</button></td>
 					</tr>
 				</tbody>
 			</table>
@@ -40,6 +42,7 @@
 						<th>Timestamp</th>
 						<th>Data</th>
 						<th>Select</th>
+						<th>Parse</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -48,6 +51,7 @@
 							<td>{{msg.timestamp}}</td>
 							<td>{{msg.data}}</td>
 							<td><button class="btn btn-danger btn-sm" ng-click="remove(msg)">Remove</button></td>
+							<td><button class="btn btn-primary btn-sm" ng-click="add(msg)">Parse</button></td>
 						</tr>
 				</tbody>
 			</table>

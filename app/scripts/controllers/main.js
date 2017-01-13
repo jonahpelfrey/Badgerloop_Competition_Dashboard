@@ -12,7 +12,9 @@ angular.module('sbAdminApp')
     //Initialize scope variables
 
     
-    $scope.progress = []
+    $scope.progress = [];
+    $scope.custom = false;
+    $scope.sentMessages = [];
     $scope.messages = [
         {module: "MCM", timestamp: 2, value: 30},
         {module: "MCM", timestamp: 2, value: 30},
