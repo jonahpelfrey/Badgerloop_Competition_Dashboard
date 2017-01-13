@@ -26,15 +26,15 @@ angular.module('sbAdminApp')
     ];
 
     $scope.msgSizes = [
-        {name: '0', mask: '0000', data: ''},
-        {name: '1', mask: '0001', data: 'FF'},
-        {name: '2', mask: '0010', data: 'FFFF'},
-        {name: '3', mask: '0011', data: 'FFFFFF'},
-        {name: '4', mask: '0100', data: 'FFFFFFFF'},
-        {name: '5', mask: '0101', data: 'FFFFFFFFFF'},
-        {name: '6', mask: '0110', data: 'FFFFFFFFFFFF'},
-        {name: '7', mask: '0111', data: 'FFFFFFFFFFFFFF'},
-        {name: '8', mask: '1000', data: 'FFFFFFFFFFFFFFFF'},
+        {name: '0', data: ''},
+        {name: '1', data: 'FF'},
+        {name: '2', data: 'FFFF'},
+        {name: '3', data: 'FFFFFF'},
+        {name: '4', data: 'FFFFFFFF'},
+        {name: '5', data: 'FFFFFFFFFF'},
+        {name: '6', data: 'FFFFFFFFFFFF'},
+        {name: '7', data: 'FFFFFFFFFFFFFF'},
+        {name: '8', data: 'FFFFFFFFFFFFFFFF'},
     ];
 
     $scope.selectedModule = $scope.modules[0];
@@ -46,7 +46,7 @@ angular.module('sbAdminApp')
     }
 
     $scope.changeSize = function() {
-        $scope.customMessage = '0x' + $scope.selectedModule.mask + $scope.selectedSize.mask + $scope.selectedSize.data;
+        $scope.customMessage = '0x' + $scope.selectedModule.mask + $scope.selectedSize.name + $scope.selectedSize.data;
     }
 
     $scope.sentMessages = [];
