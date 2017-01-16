@@ -228,7 +228,7 @@ angular
   }])
   .config(function($riffleProvider) {
     $riffleProvider.setDomain("xs.node");
-    $riffleProvider.setFabric("ws://badgerloop.physics.wisc.edu:9000");
+    $riffleProvider.setFabric("ws://192.168.1.99:9000");
   //  $riffleProvider.setFabricLocal(); //FOR LOCAL NODE USE
   })
   .run(function($riffle){

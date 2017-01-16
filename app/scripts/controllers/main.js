@@ -7,13 +7,31 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('MainCtrl', function($scope,$position,NgTableParams) {
+   .controller('MainCtrl', function($scope,$position,NgTableParams,$riffle) {
 
     //Initialize scope variables
 
     
     $scope.progress = [];
     $scope.custom = false;
+    $scope.items = [{
+      id: 1,
+      label: 'Heartbeat',
+      message: '5C0#10001',
+      endpoint: 'hb'
+    }, {
+      id: 2,
+      label: 'Start',
+      message: '0x',// TODO add this
+      endpoint: 'cmd'
+    },
+    {
+      id: 3,
+      label: 'Stop',
+      message: '0x',// TODO add this
+      endpoint: 'cmd'
+    }];
+
     $scope.modules = [
         {name: 'NONE', mask: 'FFF'},
         {name: 'VNM', mask: '001'},
@@ -40,6 +58,8 @@ angular.module('sbAdminApp')
     $scope.selectedModule = $scope.modules[0];
     $scope.selectedSize = $scope.msgSizes[0];
     $scope.customMessage = '0xFFFFFFFF';
+    $scope.sendMessage = '0xFFFFFFFF';
+    $scope.heartbeat = '0x5C010001';
 
     $scope.changeModule = function() {
         $scope.customMessage = '0x' + $scope.selectedModule.mask + 'FFFFF';
@@ -51,14 +71,14 @@ angular.module('sbAdminApp')
 
     $scope.sentMessages = [];
     $scope.messages = [
-        {module: "MCM", timestamp: 2, value: 30},
-        {module: "MCM", timestamp: 2, value: 30},
-        {module: "MCM", timestamp: 2, value: 30},
-        {module: "MCM", timestamp: 2, value: 30},
-        {module: "MCM", timestamp: 2, value: 30},
-        {module: "MCM", timestamp: 2, value: 30},
-        {module: "MCM", timestamp: 2, value: 30},
-        {module: "VNM", timestamp: 2, value: 20}
+        // {module: "MCM", timestamp: 2, value: 30},
+        // {module: "MCM", timestamp: 2, value: 30},
+        // {module: "MCM", timestamp: 2, value: 30},
+        // {module: "MCM", timestamp: 2, value: 30},
+        // {module: "MCM", timestamp: 2, value: 30},
+        // {module: "MCM", timestamp: 2, value: 30},
+        // {module: "MCM", timestamp: 2, value: 30},
+        // {module: "VNM", timestamp: 2, value: 20}
 
     ];
     $scope.sortType = 'module';
@@ -143,6 +163,18 @@ $scope.get_progress = function() {
   };
 
   $scope.get_progress();
+
+$scope.sendMessage = function(message, endpoint, domain) {
+    //$riffleProvider.setDomain(domain);
+    $riffle.publish(endpoint, message);    
+}
+
+$riffle.subscribe("can", function(data) {
+    var d = new Date();
+    console.log(data);
+    //parse data from parser here
+    $scope.messages.push({timestamp:data[0],sid:data[1],type:data[2],value:data[3]});
+});
  // These functions will be used to parse and format raw CAN message strings
  
         /*Random Data Generator */
