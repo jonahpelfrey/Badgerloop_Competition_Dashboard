@@ -47,8 +47,11 @@ router.route('/messages')
 	.post(function(req, res) {
 
 		var message = new Message();
-		message.module = req.body.module;
+		message.timestamp = req.body.timestamp;
+		message.sid = req.body.sid;
+		message.type = req.body.type;
 		message.data = req.body.data;
+
 
 		message.save(function(err) {
 			if(err) res.send(err);

@@ -14,26 +14,38 @@
                         </div>
 
                         <label class="checkbox-inline"><input type="checkbox" ng-model="custom">Custom Message</label>
+                        <label class="checkbox-inline"><input type="checkbox" ng-model="custom">RAW Message </label>
+<!--                         (format {sid}#{type byte}{data}) -->
 
                         <div class="input-group" style="padding-top: 10px;">
-                            <span class="input-group-addon" style="width: 82px;">Module</span>
-                            <select class="form-control" ng-change="changeModule()" ng-disabled="!custom" style="width: 220px;" ng-model="selectedModule" ng-options="m.name for m in modules">
-                                
+                            <span class="input-group-addon">To</span>
+                            <select class="form-control" ng-change="changeModule()" ng-disabled="!custom" ng-model="selectedModule" ng-options="m.name for m in modules">
+                            </select>
+                            <span class="input-group-addon">From</span>
+                            <select class="form-control" ng-change="changeModule()" ng-disabled="!custom" ng-model="selectedModule" ng-options="m.name for m in modules">
+                            </select>
+                        </div>
+                        <div class="input-group" style="padding-top: 10px;">
+
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon" style="width: 82px;">Message Type</span>
+                            <select class="form-control" ng-change="changeSize()" ng-disabled="!custom" style="width: 220px;" ng-model="selectedSize" ng-options="s.name for s in msgSizes">  
                             </select>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon" style="width: 82px;">Size</span>
                             <select class="form-control" ng-change="changeSize()" ng-disabled="!custom" style="width: 220px;" ng-model="selectedSize" ng-options="s.name for s in msgSizes">
-                                
                             </select>
                         </div>
                        
                         <form>
                         <div class="input-group">
-                            <span class="input-group-addon" style="width: 82px;">Message</span>
+                            <!-- make this configurable to not be in hex -->
+                            <span class="input-group-addon" style="width: 82px;">Data (hex)</span>
                             <input ng-disabled="!custom" type="text" class="form-control" name="fname" ng-model="customMessage" style="width: 220px;">
                         </div>
-                        <button class="btn btn-primary btn-block" style="margin-top: 15px; width: 302px;">Send</button>
+                        <button class="btn btn-primary btn-block">Send</button>
                         </form>
                     </div>  
 
@@ -47,13 +59,6 @@
                             <thead>
                             <tr>
                             <th>
-                                <a href="#" ng-click="sentSortType = 'module'; sentSortReverse = !sentSortReverse">
-                                Module
-                                <span ng-show="sentSortType == 'module' && !sentSortReverse" class="fa fa-caret-down"></span>
-                                <span ng-show="sentSortType == 'module' && sentSortReverse" class="fa fa-caret-up"></span>
-                                </a>
-                            </th>
-                            <th>
                                 <a href="#" ng-click="sentSortType = 'timestamp'; sentSortReverse = !sentSortReverse">
                                 Timestamp
                                 <span ng-show="sentSortType == 'timestamp' && !sentSortReverse" class="fa fa-caret-down"></span>
@@ -61,19 +66,34 @@
                                 </a>
                             </th>
                             <th>
-                                <a href="#" ng-click="sentSortType = 'value'; sentSortReverse = !sentSortReverse">
+                                <a href="#" ng-click="sentSortType = 'sid'; sentSortReverse = !sentSortReverse">
+                                SID
+                                <span ng-show="sentSortType == 'sid' && !sentSortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sentSortType == 'sid' && sentSortReverse" class="fa fa-caret-up"></span>
+                                </a>
+                            </th>
+                            <th>
+                                <a href="#" ng-click="sentSortType = 'type'; sentSortReverse = !sentSortReverse">
+                                Type
+                                <span ng-show="sentSortType == 'type' && !sentSortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sentSortType == 'type' && sentSortReverse" class="fa fa-caret-up"></span>
+                                </a>
+                            </th>
+                            <th>
+                                <a href="#" ng-click="sentSortType = 'data'; sentSortReverse = !sentSortReverse">
                                 Data
-                                <span ng-show="sentSortType == 'value' && !sentSortReverse" class="fa fa-caret-down"></span>
-                                <span ng-show="sentSortType == 'value' && sentSortReverse" class="fa fa-caret-up"></span>
+                                <span ng-show="sentSortType == 'data' && !sentSortReverse" class="fa fa-caret-down"></span>
+                                <span ng-show="sentSortType == 'data' && sentSortReverse" class="fa fa-caret-up"></span>
                                 </a>
                             </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="message in sentMessages | orderBy: sentSortType:sentSortReverse">
-                            <td><span class="label label-info">{{message.module}}</span></td>
-                            <td>{{message.timestamp}}</td>
-                            <td>{{message.value}}</td>
+                            <td><span class="label label-info">{{message.timestamp}}</span></td>
+                            <td>{{message.sid}}</td>
+                            <td>{{message.type}}</td>
+                            <td>{{message.data}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -124,24 +144,24 @@
                             </a>
                         </th>
                         <th>
-                            <a href="#" ng-click="sortType = 'module'; sortReverse = !sortReverse">
+                            <a href="#" ng-click="sortType = 'sid'; sortReverse = !sortReverse">
                             SID
-                            <span ng-show="sortType == 'module' && !sortReverse" class="fa fa-caret-down"></span>
-                            <span ng-show="sortType == 'module' && sortReverse" class="fa fa-caret-up"></span>
+                            <span ng-show="sortType == 'sid' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'sid' && sortReverse" class="fa fa-caret-up"></span>
                             </a>
                         </th>
                         <th>
-                            <a href="#" ng-click="sortType = 'module'; sortReverse = !sortReverse">
+                            <a href="#" ng-click="sortType = 'type'; sortReverse = !sortReverse">
                             Type
-                            <span ng-show="sortType == 'module' && !sortReverse" class="fa fa-caret-down"></span>
-                            <span ng-show="sortType == 'module' && sortReverse" class="fa fa-caret-up"></span>
+                            <span ng-show="sortType == 'type' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'type' && sortReverse" class="fa fa-caret-up"></span>
                             </a>
                         </th>
                         <th>
-                            <a href="#" ng-click="sortType = 'value'; sortReverse = !sortReverse">
-                            Value
-                            <span ng-show="sortType == 'value' && !sortReverse" class="fa fa-caret-down"></span>
-                            <span ng-show="sortType == 'value' && sortReverse" class="fa fa-caret-up"></span>
+                            <a href="#" ng-click="sortType = 'data'; sortReverse = !sortReverse">
+                            Data
+                            <span ng-show="sortType == 'data' && !sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'data' && sortReverse" class="fa fa-caret-up"></span>
                             </a>
                         </th>
                         </tr>
@@ -151,7 +171,7 @@
                         <td>{{msg.timestamp}}</td>
                         <td><span class="label label-info">{{msg.sid}}</span></td>
                         <td>{{msg.type}}</td>
-                        <td>{{msg.value}}</td>
+                        <td>{{msg.data}}</td>
                         </tr>
                     </tbody>
                 </table>

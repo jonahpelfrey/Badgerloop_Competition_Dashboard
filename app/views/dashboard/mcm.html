@@ -1,4 +1,10 @@
 <div class="row">
+    <div class="col-sm-6" id="line-chart" ng-controller="MainCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Control</div>
+            This is where the MCM control stuff is gonna go
+        </div>
+    </div>
     <div class="col-md-3" ng-controller="ChartCtrl">   
         
         <div class="panel panel-default">
@@ -80,6 +86,14 @@
                     </tr>
             </table>
         </div>
+    </div>   
+</div>
+<div class="row">
+    <div class="col-sm-6" id="line-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Velocity</div>
+            <nvd3 options="options" data="data"></nvd3>
+        </div>
     </div>
     <div class="col-md-3" ng-controller="ChartCtrl">
         <div class="panel panel-default">
@@ -160,13 +174,8 @@
                     </tr>
             </table>
         </div> 
-    </div>        
+    </div>     
 </div>
 <div class="row">
-    <div class="col-sm-12" id="line-chart" ng-controller="ChartCtrl">
-        <div class="panel panel-default">
-            <div class="panel-heading">Velocity</div>
-            <nvd3 options="options" data="data"></nvd3>
-        </div>
-    </div>
+
 </div>
