@@ -123,7 +123,7 @@ angular
       .state('dashboard.hallbach',{
         url:'/hallbach',
         controller: 'MainCtrl',
-        templateUrl:'views/dashboard/hallbach.html',
+        templateUrl:'views/dashboard/mcm.html',
         resolve: {
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
