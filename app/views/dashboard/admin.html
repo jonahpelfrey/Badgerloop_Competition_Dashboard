@@ -26,10 +26,10 @@
                     <div ng-show="custMsgType=='Custom'">
                         <div class="input-group" style="padding-top: 10px;">
                             <span class="input-group-addon">To</span>
-                            <select class="form-control" ng-change="changeModule()"  ng-model="selectedModule" ng-options="m.name for m in modules">
+                            <select class="form-control" ng-change="updateSID()"  ng-model="toModule" ng-options="m.name for m in modules">
                             </select>
                             <span class="input-group-addon">From</span>
-                            <select class="form-control" ng-change="changeModule()" ng-model="selectedModule" ng-options="m.name for m in modules">
+                            <select class="form-control" ng-change="changeModule()" ng-model="fromModule" ng-options="m.name for m in modules">
                             </select>
                         </div>
                         <div class="input-group">

@@ -39,7 +39,7 @@ angular.module('sbAdminApp')
 ///////////////Admin/////////////////////////////////
     $scope.templates = [{
       label: 'Heartbeat',
-      message: '5C0#0101',
+      message: '440#0101',
       endpoint: 'cmd'
     }, {
       label: 'Start',
@@ -81,14 +81,21 @@ angular.module('sbAdminApp')
     $scope.selectedModule = $scope.modules[0];
     // $scope.selectedSize = $scope.msgSizes[0];
     $scope.selectedType = $scope.msgTypes[0];
-    $scope.customData = '';
+    $scope.customData = null;
+    $scope.toModule = null // update this to work for more to modules []
+    $scope.fromModule = null;
     //Raw Messages
     $scope.rawMessage = '';
-
-
-    
-    $scope.heartbeat = '0x5C010001';
     $scope.custMsgType = 'Template';
+
+    //Tables
+    $scope.sentMessages = [];
+    $scope.messages = [];
+    $scope.sortType = 'module';
+    $scope.sortReverse = false;
+    $scope.messageSearch = '';
+    $scope.tableParams = new NgTableParams({}, { dataset: $scope.messages});
+    
     $scope.sendMessage = function() {
         var endpoint
         var message
@@ -99,15 +106,15 @@ angular.module('sbAdminApp')
         }
         else if ($scope.custMsgType == 'Custom'){
             console.log($scope.selectedType)
-            if ($scope.customData.length != $scope.selectedType.byte_length * 2){
-                alert("Error incorrect data length")
-            }
-            else{
+            // if ($scope.customData.length != $scope.selectedType.byte_length * 2){
+            //     alert("Error incorrect data length")
+            // }
+            // else{
                 endpoint = 'cmd'
                 //TODO implement SID generator
-                message = "000#" + $scope.selectedType.msg_type + $scope.customData
+                message = $scope.custSid+"#"+ $scope.selectedType.msg_type + $scope.customData
                 console.log("Custom message to be sent: " + message)
-            }
+            // }
             //Implement this
         }
         else if ($scope.custMsgType == 'Raw'){
@@ -118,26 +125,32 @@ angular.module('sbAdminApp')
         console.log("Sent message: " + message)
     }
 
-    $scope.changeSize = function() {
-        $scope.customMessage = '0x' + $scope.selectedModule.mask + $scope.selectedSize.name + $scope.selectedSize.data;
-    }
     $scope.toggleCustMsgType = function(type){
         $scope.custMsgType = type;
 
     }
+    $scope.updateSID = function(){
+        $scope.custSid = 0;
+        var to_mask = 0
+        var from_mask = 0
+        if ($scope.toModule){
+            to_mask = $scope.parser.SID[$scope.toModule.name].to
+        }
+        if ($scope.fromModule){
+            from_mask = $scope.parser.SID[$scope.fromModule.name].from
+        }
+        var ored_masks =  to_mask | from_mask
+        $scope.custSid = ored_masks.toString(16)
+        // for (var i<)
+        // for (var i = 0; i<(3-$scope.custSid.length); i++){
+        $scope.custSid = Array(4-$scope.custSid.length).join("0")+ $scope.custSid
+        // }
+        console.log($scope.custSid)
+    }
 
 /////////////Telemetry////////////////////////
+
     $scope.progress = [];
-
-
-
-    
-    $scope.sentMessages = [];
-    $scope.messages = [];
-    $scope.sortType = 'module';
-    $scope.sortReverse = false;
-    $scope.messageSearch = '';
-
     $scope.data = sinAndCos(); //data for graph
     $scope.title = 'My gauge';
     $scope.titleFontColor = 'blue';
@@ -198,8 +211,155 @@ angular.module('sbAdminApp')
     $scope.textRenderer = function (value) {
         return value;
     };
+//////////////////////////MCM////////////////////////////
+$scope.MCM_linegraph_options = {
+            chart: {
+                type: 'cumulativeLineChart',
+                height: 300,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 60,
+                    left: 65
+                },
+                x: function(d){ return d[0]; },
+                y: function(d){ return d[1]; },
+                //average: function(d) { return d.mean/100; },
 
-///////////////////////////HELPER FUNCTIONS///////////////////////////
+                color: d3.scale.category10().range(),
+                duration: 300,
+                useInteractiveGuideline: true,
+                clipVoronoi: false,
+
+                xAxis: {
+                    axisLabel: 'X Axis',
+                    tickFormat: function(d) {
+                        return d3.time.format('%m/%d/%y')(new Date(d))
+                    },
+                    showMaxMin: false,
+                    staggerLabels: true
+                },
+
+                yAxis: {
+                    axisLabel: 'Y Axis',
+                    tickFormat: function(d){
+                        return d3.format('.01f')(d);
+                        //return d3.format(',.1%')(d);
+                    },
+                    axisLabelDistance: 20
+                }
+            }
+        };
+
+$scope.MCM_linegraph_data = [
+            {
+                key: "Wheel 1",
+                values: []
+                //mean: 250
+            },
+            {
+                key: "Wheel 2",
+                values: []
+                //mean: -60
+            },
+
+            {
+                key: "Wheel 3",
+                //mean: 125,
+                values: [] 
+            },
+            {
+                key: "Wheel 4",
+                values: [] 
+            }
+        ];
+    var x = new Date().getTime();
+    setInterval(function(){
+        //if (!$scope.run) return;
+        $scope.MCM_linegraph_data[0].values.push([x,Math.random() - 0.5]);
+        $scope.MCM_linegraph_data[1].values.push([x,Math.random() - 0.5]);
+        $scope.MCM_linegraph_data[2].values.push([x,Math.random() - 0.5]);
+        $scope.MCM_linegraph_data[3].values.push([x,Math.random() - 0.5]);
+        if ($scope.MCM_linegraph_data[0].values.length > 50){
+            $scope.MCM_linegraph_data[0].values.shift();
+            $scope.MCM_linegraph_data[1].values.shift();
+            $scope.MCM_linegraph_data[2].values.shift();
+            $scope.MCM_linegraph_data[3].values.shift();
+            x++;
+        }
+       $scope.$apply(); // update both chart
+    }, 500); 
+//////////////////////////VCM////////////////////////////
+        $scope.VSM_barchart_options = {
+            chart: {
+                type: 'discreteBarChart',
+                height: 450,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 50,
+                    left: 55
+                },
+                x: function(d){return d.label;},
+                y: function(d){return d.value + (1e-10);},
+                showValues: true,
+                valueFormat: function(d){
+                    return d3.format(',.4f')(d);
+                },
+                duration: 500,
+                xAxis: {
+                    axisLabel: ''
+                },
+                yAxis: {
+                    axisLabel: 'Temperature F',
+                    axisLabelDistance: -10
+                }
+            }
+        };
+
+        $scope.VSM_barchart_data = [
+            {
+                key: "Cumulative Return",
+                values: [
+                    {
+                        "label" : "T_motor1" ,
+                        "value" : 9.765957771107
+
+                    } ,
+                    {
+                        "label" : "T_motor2" ,
+                        "value" : 0
+                    } ,
+                    {
+                        "label" : "T_motor3" ,
+                        "value" : 32.807804682612
+                    } ,
+                    {
+                        "label" : "T_motor4" ,
+                        "value" : 196.45946739256
+                    } ,
+                    {
+                        "label" : "T_HV1" ,
+                        "value" : 0.19434030906893
+                    } ,
+                    {
+                        "label" : "T_HV2" ,
+                        "value" : 98.079782601442
+                    } ,
+                    {
+                        "label" : "T_WCM3" ,
+                        "value" : 22.19434030906893
+                    } ,
+                    {
+                        "label" : "T_WCM4" ,
+                        "value" : 0.19434030906893
+                    }
+                ]
+            }
+        ]
+
+
+
 $scope.get_status = function(label){
     var max = $scope[label].max
     var min = $scope[label].max
@@ -238,8 +398,6 @@ $scope.get_progress();
 $riffle.subscribe("can", function(data) {
     //Data will be in the format [[timestamp, sid, message type, data]]
     console.log(data)
-    // var message_type = data[3]
-    // var parsed_data = data[3].split(" ");
     //May want to make this byte_length instead of parsed_data.length
     // for (var i = 0; i<parsed_data.length; i++){
     //     var hex_data = parsed_data[i]
@@ -296,7 +454,7 @@ $riffle.subscribe("can", function(data) {
         };
 //////////////////////////CAN MESSAGE TABLE ///////////////////////////
     
-    $scope.tableParams = new NgTableParams({}, { dataset: $scope.messages});
+    
 
 //////////////////////////GUAGE CONGFIGURAION///////////////////////////
 

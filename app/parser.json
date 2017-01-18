@@ -95,7 +95,7 @@
 		},
 
 		"0C": { 
-			"module":"VSM",
+			"module":"BCM",
 			"byte_length": 7,
 			"label": ["BCM_T_cabin","BCM_T_12V1","BCM_T_12V2","BCM_Door_1","BCM_Door_2","PCM.P_tube","PCM.P_tube"],
 			"scalar":[],
@@ -223,7 +223,7 @@
 			"units": [],
 			"nominal": []   
 		},
-		"1A":{
+		"FF":{
 			"cmd": true,
 			"module":"VNM",
 			"name":"VNM_RESET_POS",
@@ -297,7 +297,7 @@
 			"units": [],
 			"nominal": []   
 		},
-		"21":{
+		"1A":{
 			"cmd": true,
 			"module":"MCM",
 			"name":"MCM_MAN_SPINUP_1_2",
@@ -331,7 +331,13 @@
 		}
 	},
 	"SID": {
-		"to": [],
-		"from": []
+		"NONE":{"to": 0, "from":0},
+		"VNM":{ "to": 1, "from":128},
+        "VSM":{ "to": 2, "from":320},
+        "BCM":{ "to": 4, "from":192},
+        "MCM":{ "to": 8, "from":256},
+        "WCM":{ "to": 16, "from":64},
+        "BMS":{ "to": 32, "from":384},
+        "ALL":{ "to": 1024}
 	}
 }
