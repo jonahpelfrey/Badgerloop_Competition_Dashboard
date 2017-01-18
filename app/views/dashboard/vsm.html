@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-sm-3" id="line-chart" ng-controller="MainCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Control</div>
+            This is where the MCM control stuff is gonna go
+        </div>
+    </div>
+    <div class="col-sm-3" id="line-chart" ng-controller="MainCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Status</div>
+            This is where the VSM Status stuff is gonna go
+        </div>
+    </div>
+    <div class="col-sm-3" id="line-chart" ng-controller="MainCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Doors</div>
+            This is where the VSM Door stuff is gonna go
+        </div>
+    </div>
+    <div class="col-md-3" ng-controller="ChartCtrl">    
+        <div class="panel panel-default">
+            <div justgage
+                title="Pressure" title-font-color="black"
+                value="135" value-font-color="black"
+                relative-gauge-size="{{relativeGaugeSize}}"
+                value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
+                label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
+                maxLabelMinFontSize="{{maxLabelMinFontSize}}"
+                min="0" max="250"
+                hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
+                gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
+                show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
+                shadow-size="{{shadowSize}}" shadow-vertical-offset="{{shadowVerticalOffset}}"
+                level-colors="{{levelColors}}" custom-sectors="{{customSectors}}" no-gradient="{{noGradient}}"
+                label="kPa" label-font-color="black"
+                start-animation-time="{{startAnimationTime}}" start-animation-type="{{startAnimationType}}"
+                refresh-animation-time="{{refreshAnimationTime}}" refresh-animation-type="{{refreshAnimationType}}"
+                donut="true" donut-start-angle="{{donutStartAngle}}"
+                counter="{{counter}}" decimals="{{decimals}}" symbol="{{symbol}}" format-number="{{formatNumber}}"
+                human-friendly="{{humanFriendly}}" human-friendly-decimal="{{humanFriendlyDecimal}}"
+                text-renderer="textRenderer">
+            </div>
+<!--                 <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Temp</th> 
+                        <th>RPM</th>
+                        <th>Voltage</th>
+                        <th>Current</th>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>5000</td>
+                        <td><button type="button" class="btn btn-outline btn-warning">100</button></td>
+                        <td>100</td>
+                    </tr>
+            </table> -->
+        </div>
+    </div>   
+</div>
+<div class="row">
+    <div class="col-sm-12" id="line-chart" ng-controller="ChartCtrl">
+        <div class="panel panel-default">
+            <div class="panel-heading">Temperatures</div>
+            <nvd3 options="options" data="data"></nvd3>
+        </div>
+    </div>
+</div>

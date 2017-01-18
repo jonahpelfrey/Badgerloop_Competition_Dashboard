@@ -114,7 +114,8 @@ angular
                 name:'sbAdminApp',
                 files:[
                 'scripts/controllers/chartContoller.js',
-                'scripts/controllers/main.js'
+                'scripts/controllers/main.js',
+                'scripts/directives/dashboard/gauge/gauge-js.js'
               ]
             })
           }
@@ -124,6 +125,72 @@ angular
         url:'/mcm',
         controller: 'MainCtrl',
         templateUrl:'views/dashboard/mcm.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'chart.js',
+              files:[
+                'bower_components/angular-chart.js/dist/angular-chart.min.js',
+                'bower_components/angular-chart.js/dist/angular-chart.css'
+              ]
+            }),
+            $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                'scripts/controllers/chartContoller.js',
+                'scripts/controllers/main.js']
+            })
+          }
+        }
+      })
+      .state('dashboard.vnm',{
+        url:'/vnm',
+        controller: 'MainCtrl',
+        templateUrl:'views/dashboard/vnm.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'chart.js',
+              files:[
+                'bower_components/angular-chart.js/dist/angular-chart.min.js',
+                'bower_components/angular-chart.js/dist/angular-chart.css'
+              ]
+            }),
+            $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                'scripts/controllers/chartContoller.js',
+                'scripts/controllers/main.js']
+            })
+          }
+        }
+      })
+      .state('dashboard.vsm',{
+        url:'/vsm',
+        controller: 'MainCtrl',
+        templateUrl:'views/dashboard/vsm.html',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'chart.js',
+              files:[
+                'bower_components/angular-chart.js/dist/angular-chart.min.js',
+                'bower_components/angular-chart.js/dist/angular-chart.css'
+              ]
+            }),
+            $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                'scripts/controllers/chartContoller.js',
+                'scripts/controllers/main.js']
+            })
+          }
+        }
+      })
+      .state('dashboard.bcm',{
+        url:'/bcm',
+        controller: 'MainCtrl',
+        templateUrl:'views/dashboard/bcm.html',
         resolve: {
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({
@@ -171,7 +238,27 @@ angular
     })
       .state('dashboard.blank',{
         templateUrl:'views/pages/blank.html',
-        url:'/blank'
+        controller: 'MainCtrl',
+        url:'/blank',
+        resolve: {
+          loadMyFile:function($ocLazyLoad) {
+            return $ocLazyLoad.load({
+              name:'chart.js',
+              files:[
+                'js/ngTable.js',
+                'styles/ngTable.css'
+              ]
+            }),
+            $ocLazyLoad.load({
+                name:'sbAdminApp',
+                files:[
+                'scripts/controllers/chartContoller.js',
+                'scripts/controllers/main.js'
+                ]
+            })
+          }
+        }
+
     })
       .state('login',{
         templateUrl:'views/pages/login.html',

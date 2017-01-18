@@ -3,12 +3,17 @@
                 <div class="psize panel panel-default">
                     <div class="panel-heading" style="text-align: center;">Compose CAN Message</div>
                     <div class="panel-body">
-                        <label class="checkbox-inline"><input type="checkbox" ng-model="custom">Custom</label>
+                            <div class="btn-group">
+                                <label class="btn btn-primary" ng-model="custMsgType" ng-click="toggleCustMsgType('Template')"uib-btn-radio="'Template'">Template</label>
+                                <label class="btn btn-primary" ng-model="custMsgType" ng-click="toggleCustMsgType('Custom')"uib-btn-radio="'Custom'">Custom</label>
+                                <label class="btn btn-primary" ng-model="custMsgType" ng-click="toggleCustMsgType('Raw')"uib-btn-radio="'Raw'">Raw</label>
+                            </div>
+<!--                         <label class="checkbox-inline"><input type="checkbox" ng-model="custom">Custom</label>
                         <label class="checkbox-inline"><input type="checkbox" ng-model="raw">RAW</label>
-                        <label class="checkbox-inline"><input type="checkbox" ng-model="template">Template</label>
-                        <div class="input-group" ng-show="template">
+                        <label class="checkbox-inline"><input type="checkbox" ng-model="template">Template</label> -->
+                        <div class="input-group" ng-show="custMsgType=='Template'">
                             <span class="input-group-addon">Template</span>
-                            <select ng-disabled="custom" class="form-control" style= ng-options="item as item.label for item in items" ng-model="sendMessage" ></select>
+                            <select class="form-control" ng-options="t.label for t in templates" ng-model="sendMessage" ></select>
                             <!-- <select ng-disabled="custom" class="form-control" style="width: 220px;">
                                 <option>Heartbeat</option>
                                 <option>Start</option>
@@ -18,34 +23,34 @@
 
 
 <!--                         (format {sid}#{type byte}{data}) -->
-                    <div ng-show="custom">
+                    <div ng-show="custMsgType=='Custom'">
                         <div class="input-group" style="padding-top: 10px;">
                             <span class="input-group-addon">To</span>
-                            <select class="form-control" ng-change="changeModule()" ng-disabled="!custom" ng-model="selectedModule" ng-options="m.name for m in modules">
+                            <select class="form-control" ng-change="changeModule()"  ng-model="selectedModule" ng-options="m.name for m in modules">
                             </select>
                             <span class="input-group-addon">From</span>
-                            <select class="form-control" ng-change="changeModule()" ng-disabled="!custom" ng-model="selectedModule" ng-options="m.name for m in modules">
+                            <select class="form-control" ng-change="changeModule()" ng-model="selectedModule" ng-options="m.name for m in modules">
                             </select>
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">Type</span>
-                            <select class="form-control" ng-change="changeSize()" ng-disabled="!custom" ng-model="msgType" ng-options="s.name for s in msgTypes">  
+                            <select class="form-control" ng-change="changeSize()"  ng-model="msgType" ng-options="s.name for s in msgTypes">  
                             </select>
                             <span class="input-group-addon">Size (bytes)</span>
-                            <select class="form-control" ng-change="changeSize()" ng-disabled="!custom" ng-model="msgDataSize" ng-options="s.name for s in msgSizes">
+                            <select class="form-control" ng-change="changeSize()" ng-model="msgDataSize" ng-options="s.name for s in msgSizes">
                             </select>
                         </div>
                         <div class="input-group">
                             <!-- make this configurable to not be in hex -->
                             <span class="input-group-addon">Data (hex)</span>
-                            <input ng-disabled="!custom" maxlength="{{msgDataSize}} * 2" type="text" class="form-control" name="fname" ng-model="customData">
+                            <input maxlength="{{msgDataSize}} * 2" type="text" class="form-control" name="fname" ng-model="customData">
                         </div>
                     </div>
-                    <div ng-show="raw">
+                    <div ng-show="custMsgType=='Raw'">
                         Format: {sid}#{type byte}{data bytes}
                         <div class="input-group">
                             <span class="input-group-addon">Raw</span>
-                            <input type="text" class="form-control" name="fname" ng-model="rawMessage">
+                            <input type="text" class="form-control" ng-model="rawMessage">
                         </div>
                     </div>
                         

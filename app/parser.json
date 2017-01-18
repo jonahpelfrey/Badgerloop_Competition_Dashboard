@@ -2,45 +2,57 @@
 	"type": { 
 
 		"01": {
+			"module": "WCM",
 			"byte_length": 1,
-			"label": ["VNM.status"],
+			"label": ["WCM_status"],
 			"scalar":[0],
 			"units":[0],
 			"nominal":[0]
 		},
 		"02":  {
+			"module":"VNM",
 			"byte_length": 1,
-			"label": ["VSM.status"],
+			"label": ["VNM_status"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"03":  {
+			"module":"BCM",
 			"byte_length": 1,
-			"label": ["BCM.status"],
+			"label": ["BCM_status"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"04":  {
+			"module":"MCM",
 			"byte_length": 1,
-			"label": ["MCM.status"],
+			"label": ["MCM_status"],
+			"scalar":[],
+			"units": [],
+			"nominal": []   
+		},
+		"05":  {
+			"module":"VSM",
+			"byte_length": 1,
+			"label": ["VSM_status"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 
 
-		"05": {
+		"06": {
 			"byte_length": 6,
-			"label": ["VNM.posX","VNM.posX","VNM.posY","VNM.posY","VNM.posZ","VNM.posZ"],
+			"label": ["VNM_posX","VNM_posX","VNM_posY","VNM_posY","VNM_posZ","VNM_posZ"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"06": {
 			"byte_length": 6,
-			"label": ["VNM.velX","VNM.velX","VNM.velY","VNM.velY","VNM.velZ","VNM.velZ"],
+			"label": ["VNM_velX","VNM_velX","VNM_velY","VNM_velY","VNM_velZ","VNM_velZ"],
 			
 			"scalar":[],
 			"units": [],
@@ -48,21 +60,21 @@
 		},
 		"07": { 
 			"byte_length": 6,
-			"label": ["VNM.accX","VNM.accX","VNM.accY","VNM.accY","VNM.accZ","VNM.accZ"],
+			"label": ["VNM_accX","VNM_accX","VNM_accY","VNM_accY","VNM_accZ","VNM_accZ"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"08": { 
 			"byte_length": 6,
-			"label": ["VNM.pitch","VNM.pitch","VNM.roll","VNM.roll","VNM.yaw","VNM.yaw"],
+			"label": ["VNM_pitch","VNM_pitch","VNM_roll","VNM_roll","VNM_yaw","VNM_yaw"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"09": { 
 			"byte_length": 4,
-			"label": ["VSM.T_motor1","VSM.T_motor2","VSM.T_motor3","VSM.T_motor4"],
+			"label": ["VSM_T_motor1","VSM_T_motor2","VSM_T_motor3","VSM_T_motor4"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
@@ -71,7 +83,7 @@
 
 		"0A": { 
 			"byte_length": 4,
-			"label": ["VSM.T_HV1","VSM.T_HV2","VSM.T_WCM3","VSM.T_WCM4"],
+			"label": ["VSM_T_HV1","VSM_T_HV2","VSM_T_WCM3","VSM_T_WCM4"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
@@ -79,7 +91,7 @@
 
 		"0B": { 
 			"byte_length": 7,
-			"label": ["BCM.T_cabin","BCM.T_12V1","BCM.T_12V2","BCM.Door_1","BCM.Door_2","PCM.P_tube","PCM.P_tube"],
+			"label": ["BCM_T_cabin","BCM_T_12V1","BCM_T_12V2","BCM_Door_1","BCM_Door_2","PCM.P_tube","PCM.P_tube"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
@@ -88,21 +100,21 @@
 
 		"0C": { 
 			"byte_length": 7,
-			"label": ["BCM.Brake_PWM1_fault","BCM.Brake_PWM2_fault","BCM.Brake_PWM3_fault","BCM.Brake_PWM4_fault","BCM.Air_system","BCM.Pressure_1","BCM.Pressure_2"],
+			"label": ["BCM_Brake_PWM1_fault","BCM_Brake_PWM2_fault","BCM_Brake_PWM3_fault","BCM_Brake_PWM4_fault","BCM_Air_system","BCM_Pressure_1","BCM_Pressure_2"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"0D": { 
 			"byte_length": 4,
-			"label": ["BCM.Brake_1_spd","BCM.Brake_1_spd","BCM.Brake_2_spd","BCM.Brake_2_spd"],
+			"label": ["BCM_Brake_1_spd","BCM_Brake_1_spd","BCM_Brake_2_spd","BCM_Brake_2_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"0E": { 
 			"byte_length": 4,
-			"label": ["BCM.Brake_3_spd","BCM.Brake_3_spd","BCM.Brake_4_spd","BCM.Brake_4_spd"],
+			"label": ["BCM_Brake_3_spd","BCM_Brake_3_spd","BCM_Brake_4_spd","BCM_Brake_4_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
@@ -111,28 +123,28 @@
 
 		"0F": { 
 			"byte_length": 4,
-			"label": ["MCM.Kelly_1", "MCM.Kelly_2",  "MCM.Kelly_3",  "MCM.Kelly_4"],
+			"label": ["MCM_Kelly_1", "MCM_Kelly_2",  "MCM_Kelly_3",  "MCM_Kelly_4"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"10": {
 			"byte_length": 4,
-			"label": ["MCM.HB1_cmdV","MCM.HB2_cmdV",  "MCM.HB3_cmdV", "MCM.HB4_cmdV"],
+			"label": ["MCM_HB1_cmdV","MCM_HB2_cmdV",  "MCM_HB3_cmdV", "MCM_HB4_cmdV"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"11":{
 			"byte_length": 4,
-			"label": ["MCM.HB1_spd","MCM.HB1_spd","MCM.HB2_spd","MCM.HB2_spd"],
+			"label": ["MCM_HB1_spd","MCM_HB1_spd","MCM_HB2_spd","MCM_HB2_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"12":{
 			"byte_length": 4,
-			"label": ["MCM.HB3_spd","MCM.HB3_spd","MCM.HB4_spd","MCM.HB4_spd"],
+			"label": ["MCM_HB3_spd","MCM_HB3_spd","MCM_HB4_spd","MCM_HB4_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
@@ -178,21 +190,21 @@
 
 		"18":{
 			"byte_length": 1,
-			"label": ["VNM.EnterState"],
+			"label": ["VNM_EnterState"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"19":{
 			"byte_length": 4,
-			"label": ["VNM.Pos_x","VNM.Pos_x","VNM.Pos_y","VNM.Pos_y","VNM.Pos_z","VNM.Pos_z"],
+			"label": ["VNM_Pos_x","VNM_Pos_x","VNM_Pos_y","VNM_Pos_y","VNM_Pos_z","VNM_Pos_z"],
 			"scalar":[],
 			"units": [],
 				"nominal": []   
 		},
 		"1A":{
 			"byte_length": 1,
-			"label": ["VSM.EnterState"],		
+			"label": ["VSM_EnterState"],		
 			"scalar":[],
 			"units": [],
 				"nominal": []   
@@ -201,21 +213,21 @@
 
 		"1B":{
 			"byte_length": 1,
-			"label": ["BCM.EnterState"],
+			"label": ["BCM_EnterState"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"1C":{
 			"byte_length": 1,
-			"label": ["BCM.AirActuate"],
+			"label": ["BCM_AirActuate"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"1D":{
 			"byte_length": 4,
-			"label": ["BCM.Brake_actuate_1","BCM.Brake_actuate_2","BCM.Brake_actuate_3","BCM.Brake_actuate_4"],
+			"label": ["BCM_Brake_actuate_1","BCM_Brake_actuate_2","BCM_Brake_actuate_3","BCM_Brake_actuate_4"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
@@ -224,21 +236,21 @@
 
 		"1E":{
 			"byte_length": 1,
-			"label": ["MCM.EnterState"],
+			"label": ["MCM_EnterState"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"1F":{
 			"byte_length": 4,
-			"label": ["MCM.HB_1_ManSpinup","MCM.HB1_spd","MCM.HB_2_ManSpinup","MCM.HB2_spd"],
+			"label": ["MCM_HB_1_ManSpinup","MCM_HB1_spd","MCM_HB_2_ManSpinup","MCM_HB2_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"20":{
 			"byte_length": 4,
-			"label": ["MCM.HB_3_ManSpinup","MCM.HB3_spd","MCM.HB_4_ManSpinup","MCM.HB4_spd"],
+			"label": ["MCM_HB_3_ManSpinup","MCM_HB3_spd","MCM_HB_4_ManSpinup","MCM_HB4_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   

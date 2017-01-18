@@ -9,7 +9,6 @@
 angular.module('sbAdminApp')
    .controller('MainCtrl', function($scope,$position,NgTableParams,$riffle,$http) {
 
-    //Initialize scope variables
     $scope.parser = {}
     var set_up_scope = function(parser){
         for (var key in parser.type){
@@ -25,34 +24,22 @@ angular.module('sbAdminApp')
             set_up_scope($scope.parser)
     });
 
-    //Admin
-    $scope.custom = false;
-    $scope.raw = false;
-    $scope.template = false;
-    $scope.msgType = 0;
-    $scope.msgDataSize = 0;
-
-    $scope.progress = [];
-    
-    $scope.items = [{
-      id: 1,
+///////////////Admin/////////////////////////////////
+    $scope.templates = [{
       label: 'Heartbeat',
-      message: '5C0#10001',
-      endpoint: 'hb'
+      message: '5C0#1001',
+      endpoint: 'cmd'
     }, {
-      id: 2,
       label: 'Start',
-      message: '0x',// TODO add this
+      message: '00#0000',// TODO add this
       endpoint: 'cmd'
     },
     {
-      id: 3,
       label: 'Stop',
-      message: '0x',// TODO add this
+      message: '00#0000',// TODO add this
       endpoint: 'cmd'
     }];
-
-    $scope.modules = [
+        $scope.modules = [
         {name: 'NONE', mask:'FFF'},
         {name: 'VNM', mask: '001'},
         {name: 'VSM', mask: '002'},
@@ -62,7 +49,6 @@ angular.module('sbAdminApp')
         {name: 'BMS', mask: '020'},
         {name: 'ALL', mask: '400'}
     ];
-
     $scope.msgSizes = [
         {name: '0', data: ''},
         {name: '1', data: 'FF'},
@@ -75,7 +61,7 @@ angular.module('sbAdminApp')
         {name: '8', data: 'FFFFFFFFFFFFFFFF'},
     ];
     $scope.msgTypes = [
-        {name: '0', data: ''},
+        {name: '', data: ''},
         {name: '1', data: 'FF'},
         {name: '2', data: 'FFFF'},
         {name: '3', data: 'FFFFFF'},
@@ -85,33 +71,40 @@ angular.module('sbAdminApp')
         {name: '7', data: 'FFFFFFFFFFFFFF'},
         {name: '8', data: 'FFFFFFFFFFFFFFFF'},
     ];
+    $scope.custom = false;
+    $scope.raw = false;
+    $scope.template = false;
+    $scope.msgType = 0;
+    $scope.msgDataSize = 0;
+    
+    
+
+
+
 
     $scope.selectedModule = $scope.modules[0];
     $scope.selectedSize = $scope.msgSizes[0];
     $scope.customMessage = '0xFFFFFFFF';
     $scope.sendMessage = '0xFFFFFFFF';
     $scope.heartbeat = '0x5C010001';
-
-    $scope.changeModule = function() {
-        $scope.customMessage = '0x' + $scope.selectedModule.mask + 'FFFFF';
-    }
+    $scope.custMsgType = 'Template';
 
     $scope.changeSize = function() {
         $scope.customMessage = '0x' + $scope.selectedModule.mask + $scope.selectedSize.name + $scope.selectedSize.data;
     }
+    $scope.toggleCustMsgType = function(type){
+        $scope.custMsgType = type;
 
+    }
+
+/////////////Telemetry////////////////////////
+    $scope.progress = [];
+
+
+
+    
     $scope.sentMessages = [];
-    $scope.messages = [
-        // {module: "MCM", timestamp: 2, value: 30},
-        // {module: "MCM", timestamp: 2, value: 30},
-        // {module: "MCM", timestamp: 2, value: 30},
-        // {module: "MCM", timestamp: 2, value: 30},
-        // {module: "MCM", timestamp: 2, value: 30},
-        // {module: "MCM", timestamp: 2, value: 30},
-        // {module: "MCM", timestamp: 2, value: 30},
-        // {module: "VNM", timestamp: 2, value: 20}
-
-    ];
+    $scope.messages = [];
     $scope.sortType = 'module';
     $scope.sortReverse = false;
     $scope.messageSearch = '';
@@ -178,6 +171,24 @@ angular.module('sbAdminApp')
     };
 
 ///////////////////////////HELPER FUNCTIONS///////////////////////////
+$scope.get_status = function(label){
+    var max = $scope[label].max
+    var min = $scope[label].max
+    var warn_max = $scope[label].max - $scope[label].max * .1 // 10% of max do we want to warn?
+    var warn_min = $scope[label].min + $scope[label].max * .1 // 10% of max do we want to warn?
+
+    var types = ['success', 'info', 'warning', 'danger'];
+
+    if ($scope[label] >= max || $scope[label] <= min){
+        return 'danger'
+    }
+    else if ($scope[label] >= warn_max || $scope[label] <= warn_min){
+        return 'warning'
+    }
+    else if ($scope[label] < max && $scope[label] > min){
+        return 'success'
+    }
+}
 
 
 $scope.get_progress = function() {
@@ -193,7 +204,7 @@ $scope.get_progress = function() {
     }
   };
 
-  $scope.get_progress();
+$scope.get_progress();
 
 $scope.sendMessage = function(message, endpoint, domain) {
     //$riffleProvider.setDomain(domain);
@@ -201,19 +212,30 @@ $scope.sendMessage = function(message, endpoint, domain) {
 }
 
 $riffle.subscribe("can", function(data) {
-    //Data will be in the format [timestamp, sid, message type, data]
-
-    var message_type = data[3]
-    var parsed_data = data[3].split(" ");
+    //Data will be in the format [[timestamp, sid, message type, data]]
+    console.log(data)
+    // var message_type = data[3]
+    // var parsed_data = data[3].split(" ");
     //May want to make this byte_length instead of parsed_data.length
-    for (var i = 0; i<parsed_data.length; i++){
-        var hex_data = parsed_data[i]
-        var data_label = $scope.parser[message_type].label[i]
-        var scalar = $scope.parser[message_type].scalar[i]
-        $scope[data_label] = scalar * parseInt(hex_data, 16)
-        //May want to determine status and color values here or inline html
-        console.log($scope[data_label])
+    // for (var i = 0; i<parsed_data.length; i++){
+    //     var hex_data = parsed_data[i]
+    //     var data_label = $scope.parser[message_type].label[i]
+    //     var scalar = $scope.parser[message_type].scalar[i]
+    //     $scope[data_label] = scalar * parseInt(hex_data, 16)
+    //     //May want to determine status and color values here or inline html
+    //     console.log($scope[data_label])
+    // }
+    var formattted_messages = []
+    for(var a = 0; a<data.length; a++){
+        formattted_messages.push(
+            {timestamp: new Date(parseFloat(data[a][0])*1000),
+             sid: data[a][1],
+             type: data[a][2],
+             data: data[a][3]
+            })
     }
+
+    $scope.messages = formattted_messages
 });
  // These functions will be used to parse and format raw CAN message strings
  
@@ -252,8 +274,36 @@ $riffle.subscribe("can", function(data) {
     
     $scope.tableParams = new NgTableParams({}, { dataset: $scope.messages});
 
+//////////////////////////GUAGE CONGFIGURAION///////////////////////////
 
+$scope.guageOptions = {
+  lines: 10, // The number of lines to draw
+  angle: 0, // The length of each line
+  lineWidth: 0.20, // The line thickness
+  pointer: {
+    length: 1, // The radius of the inner circle
+    strokeWidth: 0.035, // The rotation offset
+    color: '#000000' // Fill color
+  },
+  staticZones: [
+   {strokeStyle: "#F03E3E", min: 0, max: (180-50)}, // Red from 100 to 130
+   {strokeStyle: "#FFDD00", min: (180-50), max: (180-10)}, // Yellow
+   {strokeStyle: "#30B32D", min: (180-10), max: (180+10)}, // Green
+   {strokeStyle: "#FFDD00", min: (180+10), max: (180+50)}, // Yellow
+   {strokeStyle: "#F03E3E", min: (50+180), max: (180+180)}  // Red
+],
+  limitMax: true,   // If true, the pointer will not go past the end of the gauge
 
+  // colorStart: '#6FADCF',   // Colors
+  // colorStop: '#8FC0DA',    // just experiment with them
+  // strokeColor: '#E0E0E0',   // to see which ones work best for you
+  generateGradient: true,
+  maxValue: 360,
+};
+//Replace these with dynamically generated values
+$scope.roll = 180;
+$scope.pitch = 180;
+$scope.yaw = 180;
 //////////////////////////GRAPH CONGFIGURAION///////////////////////////
   	 $scope.options = {
             chart: {
