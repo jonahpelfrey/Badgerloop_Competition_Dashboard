@@ -120,10 +120,10 @@ angular
           }
         }
       })
-      .state('dashboard.hallbach',{
-        url:'/hallbach',
+      .state('dashboard.mcm',{
+        url:'/mcm',
         controller: 'MainCtrl',
-        templateUrl:'views/dashboard/hallbach.html',
+        templateUrl:'views/dashboard/mcm.html',
         resolve: {
           loadMyFile:function($ocLazyLoad) {
             return $ocLazyLoad.load({

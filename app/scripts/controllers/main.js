@@ -7,13 +7,26 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-   .controller('MainCtrl', function($scope,$position,NgTableParams,$riffle) {
+   .controller('MainCtrl', function($scope,$position,NgTableParams,$riffle,$http) {
 
     //Initialize scope variables
 
-    
-    $scope.progress = [];
+    //Ingest Parser
+    $scope.parser = {}
+    $http.get('../../parser.json').success(function(data) {
+            $scope.parser = data
+            console.log($scope.parser)
+    });
+
+    //Admin
     $scope.custom = false;
+    $scope.raw = false;
+    $scope.template = false;
+    $scope.msgType = 0;
+    $scope.msgDataSize = 0;
+
+    $scope.progress = [];
+    
     $scope.items = [{
       id: 1,
       label: 'Heartbeat',
@@ -33,7 +46,7 @@ angular.module('sbAdminApp')
     }];
 
     $scope.modules = [
-        {name: 'NONE', mask: 'FFF'},
+        {name: 'NONE', mask:'FFF'},
         {name: 'VNM', mask: '001'},
         {name: 'VSM', mask: '002'},
         {name: 'BCM', mask: '004'},
@@ -44,6 +57,17 @@ angular.module('sbAdminApp')
     ];
 
     $scope.msgSizes = [
+        {name: '0', data: ''},
+        {name: '1', data: 'FF'},
+        {name: '2', data: 'FFFF'},
+        {name: '3', data: 'FFFFFF'},
+        {name: '4', data: 'FFFFFFFF'},
+        {name: '5', data: 'FFFFFFFFFF'},
+        {name: '6', data: 'FFFFFFFFFFFF'},
+        {name: '7', data: 'FFFFFFFFFFFFFF'},
+        {name: '8', data: 'FFFFFFFFFFFFFFFF'},
+    ];
+    $scope.msgTypes = [
         {name: '0', data: ''},
         {name: '1', data: 'FF'},
         {name: '2', data: 'FFFF'},
