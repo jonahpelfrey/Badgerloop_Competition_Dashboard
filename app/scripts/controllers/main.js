@@ -10,12 +10,19 @@ angular.module('sbAdminApp')
    .controller('MainCtrl', function($scope,$position,NgTableParams,$riffle,$http) {
 
     //Initialize scope variables
-
-    //Ingest Parser
     $scope.parser = {}
+    var set_up_scope = function(parser){
+        for (var key in parser.type){
+            for (var i = 0; i < parser.type[key].byte_length; i++){
+                $scope[parser.type[key].label[i]] = null;
+            }
+        }
+        console.log("Updated Scope variables")
+    }
     $http.get('../../parser.json').success(function(data) {
             $scope.parser = data
-            console.log($scope.parser)
+            console.log("Parser read successfully")
+            set_up_scope($scope.parser)
     });
 
     //Admin
@@ -194,10 +201,19 @@ $scope.sendMessage = function(message, endpoint, domain) {
 }
 
 $riffle.subscribe("can", function(data) {
-    var d = new Date();
-    console.log(data);
-    //parse data from parser here
-    $scope.messages.push({timestamp:data[0],sid:data[1],type:data[2],value:data[3]});
+    //Data will be in the format [timestamp, sid, message type, data]
+
+    var message_type = data[3]
+    var parsed_data = data[3].split(" ");
+    //May want to make this byte_length instead of parsed_data.length
+    for (var i = 0; i<parsed_data.length; i++){
+        var hex_data = parsed_data[i]
+        var data_label = $scope.parser[message_type].label[i]
+        var scalar = $scope.parser[message_type].scalar[i]
+        $scope[data_label] = scalar * parseInt(hex_data, 16)
+        //May want to determine status and color values here or inline html
+        console.log($scope[data_label])
+    }
 });
  // These functions will be used to parse and format raw CAN message strings
  

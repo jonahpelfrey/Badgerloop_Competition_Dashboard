@@ -7,6 +7,15 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var riffle = require('jsriffle');
+
+riffle.setFabric("ws://192.168.1.99:9000");
+var exis_node = riffle.Domain("xs.node");
+
+
+
+// riffle.setLogLevelDebug();
+// Create event handler
 
 app.set('port', process.env.PORT || 8000);
 app.use(express.static(path.join(__dirname,  '/log/client')));
@@ -15,11 +24,26 @@ app.use(bodyParser.json());
 
 // Competition Connection
 
-mongoose.connect('mongodb://localhost/badgerloop', function(error) {
+mongoose.connect('mongodb://192.168.1.99:27017/badgerloop', function(error) {
 	if(error) console.log(error);
 	else console.log('Connected to competition database');
 });
 
+
+exis_node.subscribe("can", function(data) {
+//Data will be in the format [timestamp, sid, message type, data]
+	var msg = new Message({
+	    timestamp: new Date(data[0]), 
+	    sid: data[1], 
+	    type: data[2],  // Notice the use of a String rather than a Number - Mongoose will automatically convert this for us.
+	    data: data[3]
+	});
+
+	msg.save(function(err, msg) {
+	  if (err) return console.error(err);
+	  console.dir(msg);
+	}); 
+});
 // Hosted Connection
 
 // var MONGOLAB_URI = 'mongodb://heroku_wrpm8z2c:adbk172h0lfvugpggqt4hdr2d9@ds153815.mlab.com:53815/heroku_wrpm8z2c';
