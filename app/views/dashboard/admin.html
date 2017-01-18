@@ -13,7 +13,7 @@
                         <label class="checkbox-inline"><input type="checkbox" ng-model="template">Template</label> -->
                         <div class="input-group" ng-show="custMsgType=='Template'">
                             <span class="input-group-addon">Template</span>
-                            <select class="form-control" ng-options="t.label for t in templates" ng-model="sendMessage" ></select>
+                            <select class="form-control" ng-options="t.label for t in templates" ng-model="selectedTemplate" ></select>
                             <!-- <select ng-disabled="custom" class="form-control" style="width: 220px;">
                                 <option>Heartbeat</option>
                                 <option>Start</option>
@@ -34,16 +34,17 @@
                         </div>
                         <div class="input-group">
                             <span class="input-group-addon">Type</span>
-                            <select class="form-control" ng-change="changeSize()"  ng-model="msgType" ng-options="s.name for s in msgTypes">  
+                            <select class="form-control" ng-model="selectedType" ng-options="s.name for s in msgTypes">  
+<!--                              | unique:'name' -->
                             </select>
-                            <span class="input-group-addon">Size (bytes)</span>
-                            <select class="form-control" ng-change="changeSize()" ng-model="msgDataSize" ng-options="s.name for s in msgSizes">
-                            </select>
+                            <span class="input-group-addon">Size (bytes)  {{selectedType.byte_length}}</span>
+<!--                             <select class="form-control" ng-change="changeSize()" ng-model="msgDataSize" ng-options="s.name for s in msgSizes">
+                            </select> -->
                         </div>
                         <div class="input-group">
                             <!-- make this configurable to not be in hex -->
                             <span class="input-group-addon">Data (hex)</span>
-                            <input maxlength="{{msgDataSize}} * 2" type="text" class="form-control" name="fname" ng-model="customData">
+                            <input type="text" class="form-control" ng-model="customData">
                         </div>
                     </div>
                     <div ng-show="custMsgType=='Raw'">

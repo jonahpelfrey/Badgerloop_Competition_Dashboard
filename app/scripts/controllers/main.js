@@ -9,17 +9,29 @@
 angular.module('sbAdminApp')
    .controller('MainCtrl', function($scope,$position,NgTableParams,$riffle,$http) {
 
+    //Initialize parser
+    $scope.msgTypes = []
     $scope.parser = {}
     var set_up_scope = function(parser){
-        for (var key in parser.type){
-            for (var i = 0; i < parser.type[key].byte_length; i++){
-                $scope[parser.type[key].label[i]] = null;
+        for (var key in parser.msg_type){
+            //Set up command messages
+            if (parser.msg_type[key].cmd) {
+                    var comand = parser.msg_type[key]
+                    comand.msg_type = key
+                    $scope.msgTypes.push(comand)
+            }
+            else {
+                //May want to use parser.msg_type[key].label.length
+                for (var i = 0; i < parser.msg_type[key].byte_length; i++){
+                    $scope[parser.msg_type[key].label[i]] = null;
+                }
             }
         }
         console.log("Updated Scope variables")
     }
     $http.get('../../parser.json').success(function(data) {
             $scope.parser = data
+            console.log($scope.parser)
             console.log("Parser read successfully")
             set_up_scope($scope.parser)
     });
@@ -27,7 +39,7 @@ angular.module('sbAdminApp')
 ///////////////Admin/////////////////////////////////
     $scope.templates = [{
       label: 'Heartbeat',
-      message: '5C0#1001',
+      message: '5C0#0101',
       endpoint: 'cmd'
     }, {
       label: 'Start',
@@ -39,7 +51,8 @@ angular.module('sbAdminApp')
       message: '00#0000',// TODO add this
       endpoint: 'cmd'
     }];
-        $scope.modules = [
+
+    $scope.modules = [
         {name: 'NONE', mask:'FFF'},
         {name: 'VNM', mask: '001'},
         {name: 'VSM', mask: '002'},
@@ -49,45 +62,61 @@ angular.module('sbAdminApp')
         {name: 'BMS', mask: '020'},
         {name: 'ALL', mask: '400'}
     ];
-    $scope.msgSizes = [
-        {name: '0', data: ''},
-        {name: '1', data: 'FF'},
-        {name: '2', data: 'FFFF'},
-        {name: '3', data: 'FFFFFF'},
-        {name: '4', data: 'FFFFFFFF'},
-        {name: '5', data: 'FFFFFFFFFF'},
-        {name: '6', data: 'FFFFFFFFFFFF'},
-        {name: '7', data: 'FFFFFFFFFFFFFF'},
-        {name: '8', data: 'FFFFFFFFFFFFFFFF'},
-    ];
-    $scope.msgTypes = [
-        {name: '', data: ''},
-        {name: '1', data: 'FF'},
-        {name: '2', data: 'FFFF'},
-        {name: '3', data: 'FFFFFF'},
-        {name: '4', data: 'FFFFFFFF'},
-        {name: '5', data: 'FFFFFFFFFF'},
-        {name: '6', data: 'FFFFFFFFFFFF'},
-        {name: '7', data: 'FFFFFFFFFFFFFF'},
-        {name: '8', data: 'FFFFFFFFFFFFFFFF'},
-    ];
-    $scope.custom = false;
-    $scope.raw = false;
-    $scope.template = false;
+    // $scope.msgSizes = [
+    //     {name: '0', data: ''},
+    //     {name: '1', data: 'FF'},
+    //     {name: '2', data: 'FFFF'},
+    //     {name: '3', data: 'FFFFFF'},
+    //     {name: '4', data: 'FFFFFFFF'},
+    //     {name: '5', data: 'FFFFFFFFFF'},
+    //     {name: '6', data: 'FFFFFFFFFFFF'},
+    //     {name: '7', data: 'FFFFFFFFFFFFFF'},
+    //     {name: '8', data: 'FFFFFFFFFFFFFFFF'},
+    // ];
     $scope.msgType = 0;
     $scope.msgDataSize = 0;
-    
-    
-
-
-
-
+    //Template Messages
+    $scope.selectedTemplate = $scope.templates[0];
+    //Custom Messages
     $scope.selectedModule = $scope.modules[0];
-    $scope.selectedSize = $scope.msgSizes[0];
-    $scope.customMessage = '0xFFFFFFFF';
-    $scope.sendMessage = '0xFFFFFFFF';
+    // $scope.selectedSize = $scope.msgSizes[0];
+    $scope.selectedType = $scope.msgTypes[0];
+    $scope.customData = '';
+    //Raw Messages
+    $scope.rawMessage = '';
+
+
+    
     $scope.heartbeat = '0x5C010001';
     $scope.custMsgType = 'Template';
+    $scope.sendMessage = function() {
+        var endpoint
+        var message
+        if ($scope.custMsgType == 'Template'){
+            endpoint = $scope.selectedTemplate.endpoint
+            message = $scope.selectedTemplate.message
+            
+        }
+        else if ($scope.custMsgType == 'Custom'){
+            console.log($scope.selectedType)
+            if ($scope.customData.length != $scope.selectedType.byte_length * 2){
+                alert("Error incorrect data length")
+            }
+            else{
+                endpoint = 'cmd'
+                //TODO implement SID generator
+                message = "000#" + $scope.selectedType.msg_type + $scope.customData
+                console.log("Custom message to be sent: " + message)
+            }
+            //Implement this
+        }
+        else if ($scope.custMsgType == 'Raw'){
+            message = $scope.rawMessage
+            endpoint = 'cmd'
+        }
+        $riffle.publish(endpoint,message)
+        console.log("Sent message: " + message)
+    }
 
     $scope.changeSize = function() {
         $scope.customMessage = '0x' + $scope.selectedModule.mask + $scope.selectedSize.name + $scope.selectedSize.data;
@@ -205,11 +234,6 @@ $scope.get_progress = function() {
   };
 
 $scope.get_progress();
-
-$scope.sendMessage = function(message, endpoint, domain) {
-    //$riffleProvider.setDomain(domain);
-    $riffle.publish(endpoint, message);    
-}
 
 $riffle.subscribe("can", function(data) {
     //Data will be in the format [[timestamp, sid, message type, data]]

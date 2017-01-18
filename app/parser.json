@@ -1,5 +1,5 @@
 {
-	"type": { 
+	"msg_type": { 
 
 		"01": {
 			"module": "WCM",
@@ -44,35 +44,39 @@
 
 
 		"06": {
+			"module":"VNM",
 			"byte_length": 6,
 			"label": ["VNM_posX","VNM_posX","VNM_posY","VNM_posY","VNM_posZ","VNM_posZ"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"06": {
+		"07": {
+			"module":"VNM",
 			"byte_length": 6,
 			"label": ["VNM_velX","VNM_velX","VNM_velY","VNM_velY","VNM_velZ","VNM_velZ"],
-			
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"07": { 
+		"08": { 
+			"module":"VNM",
 			"byte_length": 6,
 			"label": ["VNM_accX","VNM_accX","VNM_accY","VNM_accY","VNM_accZ","VNM_accZ"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"08": { 
+		"09": { 
+			"module":"VNM",
 			"byte_length": 6,
 			"label": ["VNM_pitch","VNM_pitch","VNM_roll","VNM_roll","VNM_yaw","VNM_yaw"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"09": { 
+		"0A": { 
+			"module":"VSM",
 			"byte_length": 4,
 			"label": ["VSM_T_motor1","VSM_T_motor2","VSM_T_motor3","VSM_T_motor4"],
 			"scalar":[],
@@ -81,7 +85,8 @@
 		},
 
 
-		"0A": { 
+		"0B": { 
+			"module":"VSM",
 			"byte_length": 4,
 			"label": ["VSM_T_HV1","VSM_T_HV2","VSM_T_WCM3","VSM_T_WCM4"],
 			"scalar":[],
@@ -89,7 +94,8 @@
 			"nominal": []   
 		},
 
-		"0B": { 
+		"0C": { 
+			"module":"VSM",
 			"byte_length": 7,
 			"label": ["BCM_T_cabin","BCM_T_12V1","BCM_T_12V2","BCM_Door_1","BCM_Door_2","PCM.P_tube","PCM.P_tube"],
 			"scalar":[],
@@ -98,21 +104,24 @@
 		},
 
 
-		"0C": { 
+		"0D": { 
+			"module":"BCM",
 			"byte_length": 7,
 			"label": ["BCM_Brake_PWM1_fault","BCM_Brake_PWM2_fault","BCM_Brake_PWM3_fault","BCM_Brake_PWM4_fault","BCM_Air_system","BCM_Pressure_1","BCM_Pressure_2"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"0D": { 
+		"0E": { 
+			"module":"BCM",
 			"byte_length": 4,
 			"label": ["BCM_Brake_1_spd","BCM_Brake_1_spd","BCM_Brake_2_spd","BCM_Brake_2_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"0E": { 
+		"0F": { 
+			"module":"BCM",
 			"byte_length": 4,
 			"label": ["BCM_Brake_3_spd","BCM_Brake_3_spd","BCM_Brake_4_spd","BCM_Brake_4_spd"],
 			"scalar":[],
@@ -121,140 +130,204 @@
 		},
 
 
-		"0F": { 
+		"10": { 
+			"module":"MCM",
 			"byte_length": 4,
 			"label": ["MCM_Kelly_1", "MCM_Kelly_2",  "MCM_Kelly_3",  "MCM_Kelly_4"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"10": {
+		"11": {
+			"module":"MCM",
 			"byte_length": 4,
 			"label": ["MCM_HB1_cmdV","MCM_HB2_cmdV",  "MCM_HB3_cmdV", "MCM_HB4_cmdV"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"11":{
+		"12":{
+			"module":"MCM",
 			"byte_length": 4,
 			"label": ["MCM_HB1_spd","MCM_HB1_spd","MCM_HB2_spd","MCM_HB2_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"12":{
+		"13":{
 			"byte_length": 4,
 			"label": ["MCM_HB3_spd","MCM_HB3_spd","MCM_HB4_spd","MCM_HB4_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-
-
-		"13":{
-			"byte_length": 1,
-			"label": ["CMD.hb"],
-			"scalar":[],
-			"units": [],
-			"nominal": []   
-		},
 		"14":{
+			"module":"VNM",
 			"byte_length": 1,
-			"label": ["CMD.LAUNCH"],
+			"label": ["VNM_stripLost"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
+
+
 		"15":{
+			"cmd": true,
+			"name":"LAUNCH",
+			"module":"ALL",
 			"byte_length": 1,
-			"label": ["CMD.ESTOP"],
+			"label": ["CMD_LAUNCH"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"16":{
+			"cmd": true,
+			"name":"ESTOP",
+			"module":"ALL",
 			"byte_length": 1,
-			"label": ["CMD.RSTOP"],
+			"label": ["CMD_ESTOP"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 		"17":{
+			"cmd": true,
+			"name":"RSTOP",
+			"module":"ALL",
 			"byte_length": 1,
-			"label": ["CMD.SAFE"],
+			"label": ["CMD_RSTOP"],
+			"scalar":[],
+			"units": [],
+			"nominal": []   
+		},
+		"18":{
+			"cmd": true,
+			"name":"SAFE",
+			"module":"ALL",
+			"byte_length": 1,
+			"label": ["CMD_SAFE"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
 
 
-		"18":{
+		"19":{
+			"cmd": true,
+			"name":"VNM_STATE",
+			"module":"VNM",
 			"byte_length": 1,
 			"label": ["VNM_EnterState"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"19":{
+		"1A":{
+			"cmd": true,
+			"module":"VNM",
+			"name":"VNM_RESET_POS",
 			"byte_length": 4,
 			"label": ["VNM_Pos_x","VNM_Pos_x","VNM_Pos_y","VNM_Pos_y","VNM_Pos_z","VNM_Pos_z"],
 			"scalar":[],
 			"units": [],
 				"nominal": []   
 		},
-		"1A":{
+
+		"1B":{
+			"cmd": true,
+			"module":"VSM",
+			"name":"VSM_STATE",
 			"byte_length": 1,
 			"label": ["VSM_EnterState"],		
 			"scalar":[],
 			"units": [],
-				"nominal": []   
+			"nominal": []   
 		},
 
-
-		"1B":{
+		"1C":{
+			"cmd": true,
+			"module":"BCM",
+			"name":"BCM_STATE",
 			"byte_length": 1,
 			"label": ["BCM_EnterState"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"1C":{
+		"1D":{
+			"cmd": true,
+			"module":"BCM",
+			"name":"BCM_AIR_ACTUATE",
 			"byte_length": 1,
 			"label": ["BCM_AirActuate"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"1D":{
+		"1E":{
+			"cmd": true,
+			"module":"BCM",
+			"name":"BCM_BRAKE_ACTUATE",
 			"byte_length": 4,
 			"label": ["BCM_Brake_actuate_1","BCM_Brake_actuate_2","BCM_Brake_actuate_3","BCM_Brake_actuate_4"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
+		"1F":{
+			"cmd": true,
+			"module":"BCM",
+			"name":"BCM_ABS_STATE",
+			"byte_length": 1,
+			"label": ["BCM_ABS_State"],
+			"scalar":[],
+			"units": [],
+			"nominal": []   
+		},
 
 
-		"1E":{
+		"20":{
+			"cmd": true,
+			"module":"MCM",
+			"name":"MCM_STATE",
 			"byte_length": 1,
 			"label": ["MCM_EnterState"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"1F":{
+		"21":{
+			"cmd": true,
+			"module":"MCM",
+			"name":"MCM_MAN_SPINUP_1_2",
 			"byte_length": 4,
 			"label": ["MCM_HB_1_ManSpinup","MCM_HB1_spd","MCM_HB_2_ManSpinup","MCM_HB2_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
 		},
-		"20":{
+		"22":{
+			"cmd": true,
+			"name":"MCM_MAN_SPINUP_3_4",
+			"module":"MCM",
 			"byte_length": 4,
 			"label": ["MCM_HB_3_ManSpinup","MCM_HB3_spd","MCM_HB_4_ManSpinup","MCM_HB4_spd"],
 			"scalar":[],
 			"units": [],
 			"nominal": []   
+		},
 
+
+		"23":{
+			"cmd": true,
+			"module":"VSM",
+			"name":"VSM_CONTACTOR",
+			"byte_length": 1,
+			"label": ["VSM_Contactor_CMD"],
+			"scalar":[],
+			"units": [],
+			"nominal": []   
 		}
 	},
 	"SID": {
