@@ -27,21 +27,25 @@
             <br></br>
             <div class="psize panel panel-default">
                 <div class="panel-heading" style="text-align: center;">Controls</div>
-                <div class="panel-body">
-                    <button type="button" class="btn btn-primary btn-block"><i class="fa fa-heart"></i>
+                 <button type="button" class="btn btn-success btn-circle btn-xl"><i class="fa fa-play"></i>
                     </button>
+                    <button type="button" class="btn btn-warning btn-circle btn-xl"><i class="fa fa-times"></i>
                     </button>
-                    <button type="button" class="btn btn-success btn-block"><i class="fa fa-play"></i>
+                    <button type="button" class="btn btn-danger btn-circle btn-xl"><i class="fa fa-stop"></i>
                     </button>
+                    <div class="panel-body">
+                    <span class="input-group-addon">Heartbeat Interval ms</span>
+
+                    <input type="number" class="form-control" ng-model="hb_interval_ms">
+                    <button type="button" class="btn btn-primary btn-block"><i class="fa fa-heart"></i>   Start
                     </button>
-                    <button type="button" class="btn btn-warning btn-block"><i class="fa fa-times"></i>
+                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-heart"></i>   Stop
                     </button>
-                    <button type="button" class="btn btn-danger btn-block"><i class="fa fa-stop"></i>
-                    </button>
-                    <button type="button" class="btn btn-info btn-block"><i class="fa fa-check"></i></button>
+                    <!-- <button type="button" class="btn btn-info btn-block"><i class="fa fa-check"></i></button> -->
                 </div>
             </div>
-
+            
+             <br></br>
             <!-- Template Sidebar Menu -->
             <li ui-sref-active="active">
                 <a ui-sref="dashboard.home"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
