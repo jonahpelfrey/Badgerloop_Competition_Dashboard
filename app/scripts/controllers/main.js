@@ -11,29 +11,23 @@ angular.module('sbAdminApp')
 
     //Initialize parser
     $scope.d3_api
+
+    $scope.msgTypes = []
+    $scope.parser = {}
     $scope.colors = {
         green: "#00FF00",
         yellow : "#FFFF00",
         red: "#FF0000"
     }
-    $scope.msgTypes = []
-    $scope.parser = {}
     $scope.states = [
-                'READY_FOR_LAUNCH',
-                'DASH_CTL',
-                'FAULT',
-                'SAFE',
-                'RUNNING',
-                'Emergency Brake', 
-                'Normal Braking', 
-                'Front Axle Braking', 
-                'Rear Axle Braking', 
-                'Inflate', 
-                'Waiting for SAFE',
-                'Push Phase / HB wheel Spinup',
-                'HB Wheel Coast',  
-                'HB Wheel Spindown'
-                ]
+                {'FAULT' :'00'},
+                {'IDLE':'01'},
+                {'READY': '02'},
+                {'PUSHING': '03'},
+                {'COAST': '04'},
+                {'BRAKING': '05'}, 
+                {'SAFE' : '06'}
+                ]//Add the other states
 
     var set_up_scope = function(parser){
         for (var key in parser.msg_type){
@@ -68,6 +62,22 @@ angular.module('sbAdminApp')
             set_up_scope($scope.parser)
     });
 
+    $scope.WCM_state = $scope.states[1]
+    $scope.MCM_state = $scope.states[1]
+    $scope.VCM_state = $scope.states[1]
+    $scope.VSM_state = $scope.states[1]
+    $scope.BCM_state = $scope.states[1]
+
+    $scope.update_states  = function(sid,data){
+        var modules = Object.keys($parser.SID)
+        for(k in modules){
+            var sid_from_mask = modules[k].from
+            if ((sid_from_mask| parseInt(sid,16)) === sid_from_mask){
+                //Hopefully this works
+                $scope[k+'_state']=Object.keys($scope.states[parseInt(data,16)])[0]
+            }
+        } 
+    }
 
 ///////////////Admin/////////////////////////////////
     $scope.templates = [{
@@ -589,6 +599,7 @@ $riffle.subscribe("can", function(data) {
     //Data will be in the format [[timestamp, sid, message type, data]]
     //console.log(data)
     for (var i = 0; i<data.length; i++){
+        var sid = data[i][1]
         var message_type = data[i][2]
         var value = data[i][3]
 
@@ -603,20 +614,20 @@ $riffle.subscribe("can", function(data) {
 
             $scope.parser[value_label].val = parseInt(parsed_data_in_hex,16) * scalar
             $scope.parser[value_label].status_style = $scope.get_status(value_label)
+
+            if ($scope.parser[value_label].name === 'heartbeat'){
+                $scope.update_status(sid,value)
+            }
+
             prev_index = prev_index + next_index
         }
         //May want to determine status and color values here or inline html
+        add_message_to_array(data[i])
         console.log($scope[data_label])
     }
-
-    //Add messages to messages array
-    var formattted_messages = []
-    for(var a = 0; a<data.length; a++){
-        add_message_to_array(data[a])
-    }
-
+    //Add messages to messages arra
 });
- // These functions will be used to parse and format raw CAN message strings
+
  
         /*Random Data Generator */
         function sinAndCos() {
@@ -649,7 +660,6 @@ $riffle.subscribe("can", function(data) {
                 // }
             ];
         };
-//////////////////////////CAN MESSAGE TABLE ///////////////////////////
     
     
 

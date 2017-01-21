@@ -1,8 +1,16 @@
 <div class="row">
     <div class="col-sm-3" id="line-chart" ng-controller="MainCtrl">
         <div class="panel panel-default">
+
             <div class="panel-heading">Control</div>
-            This is where the MCM control stuff is gonna go
+            <span class="input-group-addon">MCM State</span>
+            <select class="form-control" ng-change="update_enter_state('MCM')"  ng-model="MCM_EnterState" ng-options="m.name for m in modules">
+            </select>
+            <button class="btn btn-primary btn-block" ng-click="console.log('implement this')">Update MCM State</button>
+            <span class="input-group-addon">Hb Wheel speed RPM  {{MCM_rpm}}</span>
+            <input type="range" ng-model="MCM_rpm" min="0" max="6000" />
+            <button class="btn btn-primary btn-block" ng-click="console.log('implement this')">Update RPM</button>
+
         </div>
     </div>
     <div class="col-sm-3" id="line-chart" ng-controller="MainCtrl">
