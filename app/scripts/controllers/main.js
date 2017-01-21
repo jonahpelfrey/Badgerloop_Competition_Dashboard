@@ -338,6 +338,18 @@ $scope.MCM_linegraph_data = [
                     {
                         "label" : "WCM2" ,
                         "value" : $scope.VSM_T_WCM2.val || 0
+                    },
+                    {
+                        "label" : "Cabin" ,
+                        "value" : $scope.VSM_T_cabin.val || 0
+                    },
+                    {
+                        "label" : "12V1" ,
+                        "value" : $scope.VSM_T_12V1.val || 0
+                    },
+                    {
+                        "label" : "12V2" ,
+                        "value" : $scope.VSM_T_12V2.val || 0
                     }
                 ]
             }
@@ -398,7 +410,7 @@ $scope.MCM_linegraph_data = [
        update_chart_values();
        $scope.$apply(); // update both chart
        // $scope.d3_api.refresh();
-    }, 1000); 
+    }, 500);
 //////////////////////////VSM////////////////////////////
 
         $scope.VSM_T_HV1 = {}
@@ -409,6 +421,9 @@ $scope.MCM_linegraph_data = [
         $scope.VSM_T_motor4 = {}
         $scope.VSM_T_WCM1 = {}
         $scope.VSM_T_WCM2 = {}
+        $scope.VSM_T_cabin = {}
+        $scope.VSM_T_12V1 = {}
+        $scope.VSM_T_12V2 = {}
         // $scope.temp_chart_labels = ['HV1', 'HV2', 'WCM1', 'WCM2', 'Motor1', 'Motor2', 'Motor3'];
         // $scope.temp_chart_series = ["Temperature C"]
         // $scope.temp_chart_data =[
@@ -500,7 +515,20 @@ $scope.MCM_linegraph_data = [
                     {
                         "label" : "WCM2" ,
                         "value" : $scope.VSM_T_WCM2.val || 0
+                    },
+                    {
+                        "label" : "Cabin" ,
+                        "value" : $scope.VSM_T_cabin.val || 0
+                    },
+                    {
+                        "label" : "12V1" ,
+                        "value" : $scope.VSM_T_12V1.val || 0
+                    },
+                    {
+                        "label" : "12V2" ,
+                        "value" : $scope.VSM_T_12V2.val || 0
                     }
+                    
                 ]
             }
         ]

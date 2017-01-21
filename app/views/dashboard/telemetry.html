@@ -113,7 +113,42 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-4" id="line-chart" ng-controller="ChartCtrl">
+    <div class="col-sm-6" id="line-chart">
+        <div class="panel panel-default">
+            <div class="panel-heading">Temperatures</div>
+            <nvd3 options="VSM_barchart_options" data="VSM_barchart_data" api="d3_api"></nvd3>
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>HV1</th>
+                        <th>HV2</th>
+                        <th>WCM1</th>
+                        <th>WCM1</th>
+                        <th>Cabin</th>
+                        <th>12V1</th>
+                        <th>12V2</th>
+
+                    </tr>
+                    <tr>
+                        <td ng-class="VSM_T_HV1.status_style">{{VSM_T_HV1.val}}</td>
+                        <td ng-class="VSM_T_HV2.status_style">{{VSM_T_HV2.val}}</td>
+                        <td ng-class="VSM_T_WCM1.status_style">{{VSM_T_WCM1.val}}</td>
+                        <td ng-class="VSM_T_WCM2.status_style">{{VSM_T_WCM2.val}}</td>
+                        <td ng-class="VSM_T_cabin.status_style">{{VSM_T_cabin.val}}</td>
+                        <td ng-class="VSM_T_12V1.status_style">{{VSM_T_12V1.val}}</td>
+                        <td ng-class="VSM_T_12V2.status_style">{{VSM_T_12V2.val}}</td>
+                    </tr>
+<!--                     <tr>
+                        <td>100</td>
+                        <td>100</td>
+                        <td><button type="button" class="btn btn-outline btn-success">100</button></td>
+                        <td>100</td>
+                        <td>100</td>
+                    </tr> -->
+            </table>
+<!--             <nvd3 options="options" data="data"></nvd3> -->
+        </div>
+    </div>
+    <div class="col-sm-3" id="line-chart" ng-controller="ChartCtrl">
         <div class="panel panel-default">
             <div class="panel-heading">Telemetry</div>
                 <table class="table table-bordered table-striped">
@@ -180,42 +215,7 @@
             </table>
         </div>
     </div>
-    <div class="col-sm-4" id="line-chart" ng-controller="ChartCtrl">
-        <div class="panel panel-default">
-            <div class="panel-heading">Temperatures</div>
-            <nvd3 options="VSM_barchart_options" data="VSM_barchart_data" api="d3_api"></nvd3>
-                <table class="table table-bordered table-striped">
-                    <tr>
-                        <th>HV1</th>
-                        <th>HV2</th>
-                        <th>WCM1</th>
-                        <th>WCM1</th>
-                        <th>Cabin</th>
-                        <th>12V1</th>
-                        <th>12V2</th>
-
-                    </tr>
-                    <tr>
-                        <td ng-class="VSM_T_HV1.status_style">{{VSM_T_HV1.val}}</td>
-                        <td ng-class="VSM_T_HV2.status_style">{{VSM_T_HV2.val}}</td>
-                        <td ng-class="VSM_T_WCM1.status_style">{{VSM_T_WCM1.val}}</td>
-                        <td ng-class="VSM_T_WCM2.status_style">{{VSM_T_WCM2.val}}</td>
-                        <td ng-class="VSM_T_cabin.status_style">{{VSM_T_cabin.val}}</td>
-                        <td ng-class="VSM_T_12V1.status_style">{{VSM_T_12V1.val}}</td>
-                        <td ng-class="VSM_T_12V2.status_style">{{VSM_T_12V2.val}}</td>
-                    </tr>
-<!--                     <tr>
-                        <td>100</td>
-                        <td>100</td>
-                        <td><button type="button" class="btn btn-outline btn-success">100</button></td>
-                        <td>100</td>
-                        <td>100</td>
-                    </tr> -->
-            </table>
-<!--             <nvd3 options="options" data="data"></nvd3> -->
-        </div>
-    </div>
-    <div class="col-sm-4" id="line-chart" ng-controller="ChartCtrl">
+        <div class="col-sm-3" id="line-chart" ng-controller="ChartCtrl">
         <div class="panel panel-default">
             <div class="panel-heading">Motors</div>
                 <table class="table table-bordered table-striped">
@@ -255,6 +255,10 @@
                         <td>tbd</td>
                     </tr>
             </table>
+        </div>
+         <div class="panel panel-default">
+            <div class="panel-heading">Status</div>
+                Show various status of modules here
         </div>
     </div>
 </div>
