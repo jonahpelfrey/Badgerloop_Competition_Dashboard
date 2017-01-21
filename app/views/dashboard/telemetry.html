@@ -265,7 +265,44 @@
         </div>
          <div class="panel panel-default">
             <div class="panel-heading">Status</div>
-                Show various status of modules here
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>Previous State</th>
+                                <th>Current State</th>
+                                <th>Next State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>MCM</b></td>
+                                <td ng-class="MCM_state.prev.level || 'info'">{{MCM_state.prev.name || 'N/a'}}</td>
+                                <td ng-class="MCM_state.curr.level || 'info'"><b>{{MCM_state.curr.name || 'N/a'}}</b></td>
+                                <td ng-class="MCM_state.next.level || 'info'">{{MCM_state.next.name || 'N/a'}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>VNM</b></td>
+                                <td ng-class="VNM_state.prev.level || 'info'">{{VNM_state.prev.name || 'N/a'}}</td>
+                                <td ng-class="VNM_state.curr.level || 'info'"><b>{{VNM_state.curr.name || 'N/a'}}</b></td>
+                                <td ng-class="VNM_state.next.level || 'info'">{{VNM_state.next.name || 'N/a'}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>VSM</b></td>
+                                <td ng-class="VSM_state.prev.level || 'info'">{{VSM_state.prev.name || 'N/a'}}</td>
+                                <td ng-class="VSM_state.curr.level || 'info'"><b>{{VSM_state.curr.name || 'N/a'}}</b></td>
+                                <td ng-class="VSM_state.next.level || 'info'">{{VSM_state.next.name || 'N/a'}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>BCM</b></td>
+                                <td ng-class="BCM_state.prev.level || 'info'">{{BCM_state.prev.name || 'N/a'}}</td>
+                                <td ng-class="BCM_state.curr.level || 'info'"><b>{{BCM_state.curr.name || 'N/a'}}</b></td>
+                                <td ng-class="BCM_state.next.level || 'info'">{{BCM_state.next.name || 'N/a'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
         </div>
     </div>
 </div>

@@ -7,8 +7,25 @@
     </div>
     <div class="col-sm-3" id="line-chart" ng-controller="MainCtrl">
         <div class="panel panel-default">
-            <div class="panel-heading">Status</div>
-            This is where the VNM Status stuff is gonna go
+            <div class="panel-heading">State</div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Previous State</th>
+                                <th>Current State</th>
+                                <th>Next State</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td ng-class="VNM_state.prev.level || 'info'">{{VNM_state.prev.name || 'N/a'}}</td>
+                                <td ng-class="VNM_state.curr.level || 'info'">{{VNM_state.curr.name || 'N/a'}}</td>
+                                <td ng-class="VNM_state.next.level || 'info'">{{VNM_state.next.name || 'N/a'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
         </div>
     </div>
     <div class="col-md-2">

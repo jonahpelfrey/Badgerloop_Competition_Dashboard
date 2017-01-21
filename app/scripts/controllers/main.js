@@ -20,13 +20,13 @@ angular.module('sbAdminApp')
         red: "#FF0000"
     }
     $scope.states = [
-                {'FAULT' :'00'},
-                {'IDLE':'01'},
-                {'READY': '02'},
-                {'PUSHING': '03'},
-                {'COAST': '04'},
-                {'BRAKING': '05'}, 
-                {'SAFE' : '06'}
+                {name:'FAULT', value:'00',level: 'danger'},
+                {name:'IDLE',value:'01',level: 'success'},
+                {name:'READY',value: '02',level: 'success'},
+                {name:'PUSHING',value: '03',level: 'success'},
+                {name:'COAST',value: '04',level: 'success'},
+                {name:'BRAKING',value: '05',level: 'warning'}, 
+                {name:'SAFE' ,value: '06',level: 'info'}
                 ]//Add the other states
 
     var set_up_scope = function(parser){
@@ -62,11 +62,18 @@ angular.module('sbAdminApp')
             set_up_scope($scope.parser)
     });
 
-    $scope.WCM_state = $scope.states[1]
-    $scope.MCM_state = $scope.states[1]
-    $scope.VCM_state = $scope.states[1]
-    $scope.VSM_state = $scope.states[1]
-    $scope.BCM_state = $scope.states[1]
+    //Initialize states
+    $scope.WCM_state = {}
+    $scope.MCM_state = {}
+    $scope.VNM_state = {}
+    $scope.VSM_state = {}
+    $scope.BCM_state = {}
+
+    $scope.WCM_state.curr = $scope.states[1]
+    $scope.MCM_state.curr = $scope.states[1]
+    $scope.VNM_state.curr = $scope.states[1]
+    $scope.VSM_state.curr = $scope.states[1]
+    $scope.BCM_state.curr = $scope.states[1]
 
     $scope.update_states  = function(sid,data){
         var modules = Object.keys($parser.SID)
@@ -74,7 +81,7 @@ angular.module('sbAdminApp')
             var sid_from_mask = modules[k].from
             if ((sid_from_mask| parseInt(sid,16)) === sid_from_mask){
                 //Hopefully this works
-                $scope[k+'_state']=Object.keys($scope.states[parseInt(data,16)])[0]
+                $scope[k+'_state']=$scope.states[parseInt(data,16)].name
             }
         } 
     }
