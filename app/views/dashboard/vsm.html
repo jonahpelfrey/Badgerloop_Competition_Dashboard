@@ -21,12 +21,12 @@
         <div class="panel panel-default">
             <div justgage
                 title="Pressure" title-font-color="black"
-                value="135" value-font-color="black"
+                value="{{VSM_P_tube.val}}" value-font-color="black"
                 relative-gauge-size="{{relativeGaugeSize}}"
                 value-min-font-size="{{valueMinFontSize}}" title-min-font-size="{{titleMinFontSize}}"
                 label-min-font-size="{{labelMinFontSize}}" min-label-min-font-size="{{minLabelMinFontSize}}"
                 maxLabelMinFontSize="{{maxLabelMinFontSize}}"
-                min="0" max="250"
+                min="600" max="101326"
                 hide-min-max="{{hideMinMax}}" hide-value="{{hideValue}}" hide-inner-shadow="true"
                 gauge-width-scale="{{gaugeWidthScale}}" gauge-color="{{white}}"
                 show-inner-shadow="{{showInnerShadow}}" shadow-opacity="{{shadowOpacity}}"
@@ -58,10 +58,10 @@
     </div>   
 </div>
 <div class="row">
-    <div class="col-sm-12" id="line-chart" ng-controller="ChartCtrl">
+    <div class="col-sm-12" id="line-chart">
         <div class="panel panel-default">
             <div class="panel-heading">Temperatures</div>
-            <nvd3 options="VSM_barchart_options" data="VSM_barchart_data"></nvd3>
+            <nvd3 options="VSM_barchart_options" data="VSM_barchart_data" api="d3_api"></nvd3>
         </div>
     </div>
 </div>

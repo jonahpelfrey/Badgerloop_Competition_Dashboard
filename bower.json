@@ -24,7 +24,8 @@
     "angularjs-gauge": "^1.0.0",
     "pg.progress-bars": "^0.2.1",
     "angular-material": "^1.1.1",
-    "angular-gage": "^0.1.0"
+    "angular-gage": "^0.1.0",
+    "ngRadialGauge": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

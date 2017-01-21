@@ -10,8 +10,31 @@ angular.module('sbAdminApp')
    .controller('MainCtrl', function($scope,$position,NgTableParams,$riffle,$http) {
 
     //Initialize parser
+    $scope.d3_api
+    $scope.colors = {
+        green: "#00FF00",
+        yellow : "#FFFF00",
+        red: "#FF0000"
+    }
     $scope.msgTypes = []
     $scope.parser = {}
+    $scope.states = [
+                'READY_FOR_LAUNCH',
+                'DASH_CTL',
+                'FAULT',
+                'SAFE',
+                'RUNNING',
+                'Emergency Brake', 
+                'Normal Braking', 
+                'Front Axle Braking', 
+                'Rear Axle Braking', 
+                'Inflate', 
+                'Waiting for SAFE',
+                'Push Phase / HB wheel Spinup',
+                'HB Wheel Coast',  
+                'HB Wheel Spindown'
+                ]
+
     var set_up_scope = function(parser){
         for (var key in parser.msg_type){
             //Set up command messages
@@ -21,20 +44,30 @@ angular.module('sbAdminApp')
                     $scope.msgTypes.push(comand)
             }
             else {
-                //May want to use parser.msg_type[key].label.length
-                for (var i = 0; i < parser.msg_type[key].byte_length; i++){
-                    $scope[parser.msg_type[key].label[i]] = null;
+                for (var i = 0; i < parser.msg_type[key].values.length; i++){
+                    //console.log(parser.msg_type[key].values[i])
+                    var value_name = Object.keys(parser.msg_type[key].values[i])[0]
+                    //console.log(value_name)
+                    $scope[value_name] = {
+                                            max: parser.msg_type[key].values[i][value_name].nominal_high,
+                                            min: parser.msg_type[key].values[i][value_name].nominal_low,
+                                            val: null,
+                                            status_style: 'success'
+                                        }
                 }
             }
         }
+        //console.log($scope)
         console.log("Updated Scope variables")
     }
+    //$scope.parser = 
     $http.get('../../parser.json').success(function(data) {
             $scope.parser = data
             console.log($scope.parser)
             console.log("Parser read successfully")
             set_up_scope($scope.parser)
     });
+
 
 ///////////////Admin/////////////////////////////////
     $scope.templates = [{
@@ -62,24 +95,14 @@ angular.module('sbAdminApp')
         {name: 'BMS', mask: '020'},
         {name: 'ALL', mask: '400'}
     ];
-    // $scope.msgSizes = [
-    //     {name: '0', data: ''},
-    //     {name: '1', data: 'FF'},
-    //     {name: '2', data: 'FFFF'},
-    //     {name: '3', data: 'FFFFFF'},
-    //     {name: '4', data: 'FFFFFFFF'},
-    //     {name: '5', data: 'FFFFFFFFFF'},
-    //     {name: '6', data: 'FFFFFFFFFFFF'},
-    //     {name: '7', data: 'FFFFFFFFFFFFFF'},
-    //     {name: '8', data: 'FFFFFFFFFFFFFFFF'},
-    // ];
+
     $scope.msgType = 0;
     $scope.msgDataSize = 0;
+
     //Template Messages
     $scope.selectedTemplate = $scope.templates[0];
     //Custom Messages
-    $scope.selectedModule = $scope.modules[0];
-    // $scope.selectedSize = $scope.msgSizes[0];
+    //$scope.selectedModule = $scope.modules[0];
     $scope.selectedType = $scope.msgTypes[0];
     $scope.customData = null;
     $scope.toModule = null // update this to work for more to modules []
@@ -149,57 +172,58 @@ angular.module('sbAdminApp')
     }
 
 /////////////Telemetry////////////////////////
-
+    var chart = nv.models.bulletChart();
     $scope.progress = [];
+
     $scope.data = sinAndCos(); //data for graph
-    $scope.title = 'My gauge';
-    $scope.titleFontColor = 'blue';
-    $scope.value = 1234.358;
+
+    //Guage options
     $scope.valueFontColor = 'red';
-    $scope.min = 0;
-    $scope.max = 1337;
-    $scope.valueMinFontSize = undefined;
-    $scope.titleMinFontSize = undefined;
-    $scope.labelMinFontSize = undefined;
-    $scope.minLabelMinFontSize = undefined;
-    $scope.maxLabelMinFontSize = undefined;
     $scope.hideValue = false;
     $scope.hideMinMax = false;
     $scope.hideInnerShadow = false;
-    $scope.width = undefined;
-    $scope.height = undefined;
-    $scope.relativeGaugeSize = undefined;
-    $scope.gaugeWidthScale = 0.5;
+    $scope.gaugeWidthScale = 0.3;
     $scope.gaugeColor = 'grey';
     $scope.showInnerShadow = true;
     $scope.shadowOpacity = 0.5;
     $scope.shadowSize = 3;
     $scope.shadowVerticalOffset = 10;
-    $scope.levelColors = ['#00FFF2', '#668C54', '#FFAF2E', '#FF2EF1'];
-    $scope.customSectors = [
-        {
-            color: "#ff0000",
-            lo: 0,
-            hi: 750
-        },
+    $scope.level_colors = ['#00FF00', '#FFFF00', '#FF0000'];
+    $scope.hb_gauge_custom_sectors = [
         {
             color: "#00ff00",
-            lo: 750,
-            hi: 1000
+            lo: 0,
+            hi: 2000
         },
         {
-            color: "#0000ff",
-            lo: 1000,
-            hi: 1337
+            color: "#ffff00",
+            lo: 2000,
+            hi: 5000
+        },
+        {
+            color: "#ff0000",
+            lo: 5000,
+            hi: 7000
         }
     ];
+    $scope.status_bar_options = {
+            chart: {
+                type: 'bulletChart',
+                transitionDuration: 500
+            }
+    };
+    $scope.VNM_posX = {}
+    $scope.status_bar_data = {
+            "title": "Progress",
+            "subtitle": "Distance m",
+            "ranges": [500,800,1700],
+            "measures": [($scope.VNM_posX.val || 0)], //Get exact distances for each phase
+            "markers": [500,800,1700]
+    };
+
     $scope.noGradient = false;
-    $scope.label = 'Green label';
     $scope.labelFontColor = 'green';
     $scope.startAnimationTime = 0;
-    $scope.startAnimationType = undefined;
-    $scope.refreshAnimationTime = undefined;
-    $scope.refreshAnimationType = undefined;
     $scope.donut = undefined;
     $scope.donutAngle = 90;
     $scope.counter = true;
@@ -211,17 +235,19 @@ angular.module('sbAdminApp')
     $scope.textRenderer = function (value) {
         return value;
     };
+
 //////////////////////////MCM////////////////////////////
 $scope.MCM_linegraph_options = {
             chart: {
-                type: 'cumulativeLineChart',
-                height: 300,
+                type: 'lineChart',
+                height: 200,
                 margin : {
                     top: 20,
                     right: 20,
                     bottom: 60,
                     left: 65
                 },
+                // forceY:[0,7000],
                 x: function(d){ return d[0]; },
                 y: function(d){ return d[1]; },
                 //average: function(d) { return d.mean/100; },
@@ -240,14 +266,14 @@ $scope.MCM_linegraph_options = {
                     staggerLabels: true
                 },
 
-                yAxis: {
-                    axisLabel: 'Y Axis',
-                    tickFormat: function(d){
-                        return d3.format('.01f')(d);
-                        //return d3.format(',.1%')(d);
-                    },
-                    axisLabelDistance: 20
-                }
+                // yAxis: {
+                //     axisLabel: 'Y Axis',
+                //     // tickFormat: function(d){
+                //     //     return d3.format('.01f')(d);
+                //     //     //return d3.format(',.1%')(d);
+                //     // },
+                //     axisLabelDistance: 20
+                // }
             }
         };
 
@@ -274,31 +300,150 @@ $scope.MCM_linegraph_data = [
             }
         ];
     var x = new Date().getTime();
-    setInterval(function(){
-        //if (!$scope.run) return;
-        $scope.MCM_linegraph_data[0].values.push([x,Math.random() - 0.5]);
-        $scope.MCM_linegraph_data[1].values.push([x,Math.random() - 0.5]);
-        $scope.MCM_linegraph_data[2].values.push([x,Math.random() - 0.5]);
-        $scope.MCM_linegraph_data[3].values.push([x,Math.random() - 0.5]);
-        if ($scope.MCM_linegraph_data[0].values.length > 50){
+    var update_chart_values = function(){
+        $scope.status_bar_data.measures = [($scope.VNM_posX.val || 0)]
+        $scope.VSM_barchart_data = [
+            {
+                key: "Cumulative Return",
+                values: [
+                    {
+                        "label" : "HV1" ,
+                        "value" : $scope.VSM_T_HV1.val || 0
+
+                    } ,
+                    {
+                        "label" : "HV2" ,
+                        "value" : $scope.VSM_T_HV2.val || 0
+                    } ,
+                    {
+                        "label" : "Motor1" ,
+                        "value" : $scope.VSM_T_motor1.val || 0
+                    } ,
+                    {
+                        "label" : "Motor2" ,
+                        "value" : $scope.VSM_T_motor2.val || 0
+                    } ,
+                    {
+                        "label" : "Motor3" ,
+                        "value" : $scope.VSM_T_motor3.val || 0
+                    } ,
+                    {
+                        "label" : "Motor4" ,
+                        "value" : $scope.VSM_T_motor4.val || 0
+                    } ,
+                    {
+                        "label" : "WCM1" ,
+                        "value" : $scope.VSM_T_WCM1.val || 0
+                    } ,
+                    {
+                        "label" : "WCM2" ,
+                        "value" : $scope.VSM_T_WCM2.val || 0
+                    }
+                ]
+            }
+        ]
+        $scope.MCM_linegraph_data[0].values.push([x,$scope.MCM_HB1_spd.val]);
+        $scope.MCM_linegraph_data[1].values.push([x,$scope.MCM_HB2_spd.val]);
+        $scope.MCM_linegraph_data[2].values.push([x,$scope.MCM_HB3_spd.val]);
+        $scope.MCM_linegraph_data[3].values.push([x,$scope.MCM_HB4_spd.val]);
+        //Conserve memory by shifting out old data
+        if ($scope.MCM_linegraph_data[0].values.length > 20){
             $scope.MCM_linegraph_data[0].values.shift();
-            $scope.MCM_linegraph_data[1].values.shift();
-            $scope.MCM_linegraph_data[2].values.shift();
-            $scope.MCM_linegraph_data[3].values.shift();
-            x++;
         }
+        if ($scope.MCM_linegraph_data[1].values.length > 20){
+            $scope.MCM_linegraph_data[1].values.shift();
+        }
+        if ($scope.MCM_linegraph_data[2].values.length > 20){
+            $scope.MCM_linegraph_data[2].values.shift();
+        }
+        if ($scope.MCM_linegraph_data[3].values.length > 20){
+            $scope.MCM_linegraph_data[3].values.shift();
+        }
+            x++;
+    }
+
+    //The function that spams data
+    setInterval(function(){
+        //Update line chart
+        // if (!$scope.run) return;
+        var parser_keys = Object.keys($scope.parser.msg_type)
+        for (var k in $scope.parser.msg_type){
+            var mesage_obj = $scope.parser.msg_type[k]
+            if (!mesage_obj.cmd){
+                for (var g = 0; g<mesage_obj.values.length; g++){
+
+                
+                    var scope_var_key = Object.keys(mesage_obj.values[g])[0]
+                    //console.log(scope_var_key)
+                    var max = $scope[scope_var_key].max
+                    var max = max + (max*.05)
+                    var min = $scope[scope_var_key].min
+                    var min = min - (max*.05)
+                    var offset = Math.floor(max * .1)
+                    $scope[scope_var_key].val = Math.floor(Math.random() * (max - min) + min);
+                    $scope[scope_var_key].status_style = $scope.get_status($scope[scope_var_key].val,$scope[scope_var_key].max,$scope[scope_var_key].min);
+                    //console.log($scope[scope_var_key].status_style)
+                    //console.log($scope.VNM_posX.val)
+                    //$scope.d3_api.refresh();
+
+                }
+            }
+        }
+        // for(var b = 0; b<parser_keys.length; b++){
+        //     message = parser_keys
+        //     for(var c = 0 c<parser_keys){
+
+        //     }
+        // }
+       update_chart_values();
        $scope.$apply(); // update both chart
-    }, 500); 
-//////////////////////////VCM////////////////////////////
+       // $scope.d3_api.refresh();
+    }, 1000); 
+//////////////////////////VSM////////////////////////////
+
+        $scope.VSM_T_HV1 = {}
+        $scope.VSM_T_HV2 = {}
+        $scope.VSM_T_motor1 = {}
+        $scope.VSM_T_motor2 = {}
+        $scope.VSM_T_motor3 = {}
+        $scope.VSM_T_motor4 = {}
+        $scope.VSM_T_WCM1 = {}
+        $scope.VSM_T_WCM2 = {}
+        // $scope.temp_chart_labels = ['HV1', 'HV2', 'WCM1', 'WCM2', 'Motor1', 'Motor2', 'Motor3'];
+        // $scope.temp_chart_series = ["Temperature C"]
+        // $scope.temp_chart_data =[
+        //                             [
+        //                             ($scope.VSM_T_HV1.val || 0),
+        //                             ($scope.VSM_T_HV2.val || 0),
+        //                             $scope.VSM_T_WCM1.val,
+        //                             $scope.VSM_T_WCM2.val,
+        //                             $scope.VSM_T_motor1.val,
+        //                             $scope.VSM_T_motor2.val,
+        //                             $scope.VSM_T_motor3.val,
+        //                             $scope.VSM_T_motor4.val
+        //                             ]
+        //                         ]
         $scope.VSM_barchart_options = {
             chart: {
                 type: 'discreteBarChart',
-                height: 450,
+                height: 350,
                 margin : {
                     top: 20,
                     right: 20,
                     bottom: 50,
                     left: 55
+                },
+                color: function (d, i) {
+                    //Print values here see if you can dynamically generate color
+                    if (d.value < 40){
+                        return "#00FF00"
+                    }
+                    else if (d.value >= 40 && d.value < 50){
+                        return "#FFFF00"
+                    }
+                    else if (d.value >= 50){
+                        return "#FF0000"
+                    }
                 },
                 x: function(d){return d.label;},
                 y: function(d){return d.value + (1e-10);},
@@ -306,53 +451,55 @@ $scope.MCM_linegraph_data = [
                 valueFormat: function(d){
                     return d3.format(',.4f')(d);
                 },
+                forceY: [0,100],
                 duration: 500,
                 xAxis: {
                     axisLabel: ''
                 },
                 yAxis: {
-                    axisLabel: 'Temperature F',
+                    axisLabel: 'Temperature  C',
                     axisLabelDistance: -10
                 }
             }
         };
+        //Hacky JS thing to get the chart to work
 
         $scope.VSM_barchart_data = [
             {
                 key: "Cumulative Return",
                 values: [
                     {
-                        "label" : "T_motor1" ,
-                        "value" : 9.765957771107
+                        "label" : "HV1" ,
+                        "value" : $scope.VSM_T_HV1.val || 0
 
                     } ,
                     {
-                        "label" : "T_motor2" ,
-                        "value" : 0
+                        "label" : "HV2" ,
+                        "value" : $scope.VSM_T_HV2.val || 0
                     } ,
                     {
-                        "label" : "T_motor3" ,
-                        "value" : 32.807804682612
+                        "label" : "Motor1" ,
+                        "value" : $scope.VSM_T_motor1.val || 0
                     } ,
                     {
-                        "label" : "T_motor4" ,
-                        "value" : 196.45946739256
+                        "label" : "Motor2" ,
+                        "value" : $scope.VSM_T_motor2.val || 0
                     } ,
                     {
-                        "label" : "T_HV1" ,
-                        "value" : 0.19434030906893
+                        "label" : "Motor3" ,
+                        "value" : $scope.VSM_T_motor3.val || 0
                     } ,
                     {
-                        "label" : "T_HV2" ,
-                        "value" : 98.079782601442
+                        "label" : "Motor4" ,
+                        "value" : $scope.VSM_T_motor4.val || 0
                     } ,
                     {
-                        "label" : "T_WCM3" ,
-                        "value" : 22.19434030906893
+                        "label" : "WCM1" ,
+                        "value" : $scope.VSM_T_WCM1.val || 0
                     } ,
                     {
-                        "label" : "T_WCM4" ,
-                        "value" : 0.19434030906893
+                        "label" : "WCM2" ,
+                        "value" : $scope.VSM_T_WCM2.val || 0
                     }
                 ]
             }
@@ -360,22 +507,25 @@ $scope.MCM_linegraph_data = [
 
 
 
-$scope.get_status = function(label){
-    var max = $scope[label].max
-    var min = $scope[label].max
-    var warn_max = $scope[label].max - $scope[label].max * .1 // 10% of max do we want to warn?
-    var warn_min = $scope[label].min + $scope[label].max * .1 // 10% of max do we want to warn?
+$scope.get_status = function(val, max, min){
+    //console.log("called_get_status")
+    //console.log("val: " + val + " max: " + max + " min: "+ min)
+    var warn_max = max - (max * 0.1) // 10% of max do we want to warn?
+    var warn_min = min + (max * 0.1) // 10% of max do we want to warn?
 
     var types = ['success', 'info', 'warning', 'danger'];
 
-    if ($scope[label] >= max || $scope[label] <= min){
+    if (val > max || val < min){
         return 'danger'
     }
-    else if ($scope[label] >= warn_max || $scope[label] <= warn_min){
+    else if (val >= warn_max || val <= warn_min){
         return 'warning'
     }
-    else if ($scope[label] < max && $scope[label] > min){
+    else if (val < max && val > min){
         return 'success'
+    }
+    else{
+        return 'info'
     }
 }
 
@@ -395,29 +545,48 @@ $scope.get_progress = function() {
 
 $scope.get_progress();
 
+var add_message_to_array = function(data){
+    if ($scope.messages.length > 30){
+        $scope.messages.length.shift();
+    }
+    $scope.messages.append({
+                            timestamp: new Date(parseInt(data[0])),
+                            sid:data[1],
+                            type:data[2],
+                            data:data[3]
+                        })
+}
+
 $riffle.subscribe("can", function(data) {
     //Data will be in the format [[timestamp, sid, message type, data]]
-    console.log(data)
-    //May want to make this byte_length instead of parsed_data.length
-    // for (var i = 0; i<parsed_data.length; i++){
-    //     var hex_data = parsed_data[i]
-    //     var data_label = $scope.parser[message_type].label[i]
-    //     var scalar = $scope.parser[message_type].scalar[i]
-    //     $scope[data_label] = scalar * parseInt(hex_data, 16)
-    //     //May want to determine status and color values here or inline html
-    //     console.log($scope[data_label])
-    // }
-    var formattted_messages = []
-    for(var a = 0; a<data.length; a++){
-        formattted_messages.push(
-            {timestamp: new Date(parseFloat(data[a][0])*1000),
-             sid: data[a][1],
-             type: data[a][2],
-             data: data[a][3]
-            })
+    //console.log(data)
+    for (var i = 0; i<data.length; i++){
+        var message_type = data[i][2]
+        var value = data[i][3]
+
+    //Parse Value
+        var prev_index = 0
+        for (var a = 0; a < $scope.paser[message_type].values.length; a++){
+
+            var value_label = Object.key($scope.paser[message_type].values[a])[0]
+            var next_index = prev_index + ($scope.paser[message_type].values[a].byte_size * 2)
+            var parsed_data_in_hex = value.substring(prev_index, next_index-1);
+            var scalar = $scope.paser[message_type].values[a].scalar
+
+            $scope.parser[value_label].val = parseInt(parsed_data_in_hex,16) * scalar
+            $scope.parser[value_label].status_style = $scope.get_status(value_label)
+            prev_index = prev_index + next_index
+        }
+        //May want to determine status and color values here or inline html
+        console.log($scope[data_label])
     }
 
-    $scope.messages = formattted_messages
+    //Add messages to messages array
+    var formattted_messages = []
+    for(var a = 0; a<data.length; a++){
+        add_message_to_array(data[a])
+    }
+
 });
  // These functions will be used to parse and format raw CAN message strings
  
@@ -457,35 +626,94 @@ $riffle.subscribe("can", function(data) {
     
 
 //////////////////////////GUAGE CONGFIGURAION///////////////////////////
+    $scope.VNM_roll = {}
+    // $scope.roll = $scope.VNM_roll.val || 0
+    $scope.upperLimit = 25;
+    $scope.lowerLimit = -25;
+    $scope.unit = "";
+    $scope.precision = 2;
+    $scope.roll_ranges = [
+        {
+            min: -25,
+            max: -10,
+            color: '#FF0000'
+        },
+        {
+            min: -10,
+            max: -2,
+            color: '#FFFF00'
+        },
+        {
+            min: -2,
+            max: 2,
+            color: '#00FF00'
+        },
+        {
+            min: 2,
+            max: 10,
+            color: '#FFFF00'
+        },
+        {
+            min: 10,
+            max: 25,
+            color: '#FF0000'
+        }
+    ];
+    $scope.yaw_ranges = [
+        {
+            min: -25,
+            max: -5,
+            color: '#FF0000'
+        },
+        {
+            min: -5,
+            max: -2,
+            color: '#FFFF00'
+        },
+        {
+            min: -2,
+            max: 2,
+            color: '#00FF00'
+        },
+        {
+            min: 2,
+            max: 5,
+            color: '#FFFF00'
+        },
+        {
+            min: 5,
+            max: 25,
+            color: '#FF0000'
+        }
+    ];
+    $scope.pitch_ranges = [
+        {
+            min: -25,
+            max: -4,
+            color: '#FF0000'
+        },
+        {
+            min: -4,
+            max: -2,
+            color: '#FFFF00'
+        },
+        {
+            min: -2,
+            max: 2,
+            color: '#00FF00'
+        },
+        {
+            min: 2,
+            max: 4,
+            color: '#FFFF00'
+        },
+        {
+            min: 4,
+            max: 25,
+            color: '#FF0000'
+        }
+    ];
 
-$scope.guageOptions = {
-  lines: 10, // The number of lines to draw
-  angle: 0, // The length of each line
-  lineWidth: 0.20, // The line thickness
-  pointer: {
-    length: 1, // The radius of the inner circle
-    strokeWidth: 0.035, // The rotation offset
-    color: '#000000' // Fill color
-  },
-  staticZones: [
-   {strokeStyle: "#F03E3E", min: 0, max: (180-50)}, // Red from 100 to 130
-   {strokeStyle: "#FFDD00", min: (180-50), max: (180-10)}, // Yellow
-   {strokeStyle: "#30B32D", min: (180-10), max: (180+10)}, // Green
-   {strokeStyle: "#FFDD00", min: (180+10), max: (180+50)}, // Yellow
-   {strokeStyle: "#F03E3E", min: (50+180), max: (180+180)}  // Red
-],
-  limitMax: true,   // If true, the pointer will not go past the end of the gauge
-
-  // colorStart: '#6FADCF',   // Colors
-  // colorStop: '#8FC0DA',    // just experiment with them
-  // strokeColor: '#E0E0E0',   // to see which ones work best for you
-  generateGradient: true,
-  maxValue: 360,
-};
-//Replace these with dynamically generated values
-$scope.roll = 180;
-$scope.pitch = 180;
-$scope.yaw = 180;
 //////////////////////////GRAPH CONGFIGURAION///////////////////////////
   	 $scope.options = {
             chart: {

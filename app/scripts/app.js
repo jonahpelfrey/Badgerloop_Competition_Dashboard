@@ -17,6 +17,7 @@ angular
     'nvd3',
     'ngTable',
     'frapontillo.gage',
+    'ngRadialGauge'
   ])
 
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
