@@ -26,32 +26,33 @@ angular.module('sbAdminApp')
                 {name:'PUSHING',value: '03',level: 'success'},
                 {name:'COAST',value: '04',level: 'success'},
                 {name:'BRAKING',value: '05',level: 'warning'}, 
-                {name:'SAFE' ,value: '06',level: 'info'}
+                {name:'EMERGENCY_BRAKING' ,value: '06',level: 'danger'},
+                {name:'SAFE' ,value: '07',level: 'info'}
                 ]//Add the other states
 
     var set_up_scope = function(parser){
-        for (var key in parser.msg_type){
+        for ( var i = 0; i< parser.messages.length; i++){
             //Set up command messages
-            if (parser.msg_type[key].cmd) {
-                    var comand = parser.msg_type[key]
-                    comand.msg_type = key
+            var message = parser.messages[i]
+            if (parser.messages[i].cmd) {
+                    var comand = parser.messages[i]
                     $scope.msgTypes.push(comand)
             }
             else {
-                for (var i = 0; i < parser.msg_type[key].values.length; i++){
+                for (var j = 0; j < message.values.length; j++){
                     //console.log(parser.msg_type[key].values[i])
-                    var value_name = Object.keys(parser.msg_type[key].values[i])[0]
                     //console.log(value_name)
-                    $scope[value_name] = {
-                                            max: parser.msg_type[key].values[i][value_name].nominal_high,
-                                            min: parser.msg_type[key].values[i][value_name].nominal_low,
+                    var value = message.values[j]
+                    $scope[value.title] = {
+                                            max: value.nominal_high,
+                                            min: value.nominal_low,
                                             val: null,
-                                            status_style: 'success'
+                                            status_style: 'info'
                                         }
                 }
             }
         }
-        //console.log($scope)
+        console.log($scope)
         console.log("Updated Scope variables")
     }
     //$scope.parser = 
@@ -62,26 +63,36 @@ angular.module('sbAdminApp')
             set_up_scope($scope.parser)
     });
 
-    //Initialize states
-    $scope.WCM_state = {}
-    $scope.MCM_state = {}
-    $scope.VNM_state = {}
-    $scope.VSM_state = {}
-    $scope.BCM_state = {}
+    //Initialize modules
+    $scope.WCM = {}
+    $scope.MCM = {}
+    $scope.VNM = {}
+    $scope.VSM = {}
+    $scope.BCM = {}
+    $scope.BMS = {}
 
-    $scope.WCM_state.curr = $scope.states[1]
-    $scope.MCM_state.curr = $scope.states[1]
-    $scope.VNM_state.curr = $scope.states[1]
-    $scope.VSM_state.curr = $scope.states[1]
-    $scope.BCM_state.curr = $scope.states[1]
+    // $scope.BMS_state.curr = $scope.states[1]
+    // $scope.WCM_state.curr = $scope.states[1]
+    // $scope.MCM_state.curr = $scope.states[1]
+    // $scope.VNM_state.curr = $scope.states[1]
+    // $scope.VSM_state.curr = $scope.states[1]
+    // $scope.BCM_state.curr = $scope.states[1]
 
     $scope.update_states  = function(sid,data){
-        var modules = Object.keys($parser.SID)
-        for(k in modules){
-            var sid_from_mask = modules[k].from
-            if ((sid_from_mask| parseInt(sid,16)) === sid_from_mask){
+        var modules = Object.keys($scope.parser.SID)
+        console.log(modules)
+        console.log(data)
+        for(var u = 0; u<modules.length; u++){
+            var sid_from_mask = $scope.parser.SID[modules[u]].from
+            console.log(sid_from_mask)
+            if (((sid_from_mask & parseInt(sid,16)) === sid_from_mask) && (modules[u] !== "NONE")) {
                 //Hopefully this works
-                $scope[k+'_state']=$scope.states[parseInt(data,16)].name
+                console.log('update status of: ' + modules[u]) 
+                $scope[modules[u]+'_state'].curr=$scope.states[data[1]]
+
+                // $scope[modules[u]+'_state'].prev=$scope.states[parseInt(data[3],16)].name
+                // $scope[modules[u]+'_state'].next=$scope.states[parseInt(data[4],16)].name
+                console.log("updated: "+ modules[u] +" State to: " +$scope[modules[u]+'_state'].curr.name)
             }
         } 
     }
@@ -89,7 +100,7 @@ angular.module('sbAdminApp')
 ///////////////Admin/////////////////////////////////
     $scope.templates = [{
       label: 'Heartbeat',
-      message: '440#0101',
+      message: '440#010100000000',
       endpoint: 'cmd'
     }, {
       label: 'Start',
@@ -388,46 +399,45 @@ $scope.MCM_linegraph_data = [
         if ($scope.MCM_linegraph_data[3].values.length > 20){
             $scope.MCM_linegraph_data[3].values.shift();
         }
-            x++;
     }
 
     //The function that spams data
-    setInterval(function(){
-        //Update line chart
-        // if (!$scope.run) return;
-        var parser_keys = Object.keys($scope.parser.msg_type)
-        for (var k in $scope.parser.msg_type){
-            var mesage_obj = $scope.parser.msg_type[k]
-            if (!mesage_obj.cmd){
-                for (var g = 0; g<mesage_obj.values.length; g++){
+    // setInterval(function(){
+    //     //Update line chart
+    //     // if (!$scope.run) return;
+    //     var parser_keys = Object.keys($scope.parser.msg_type)
+    //     for (var k in $scope.parser.msg_type){
+    //         var mesage_obj = $scope.parser.msg_type[k]
+    //         if (!mesage_obj.cmd){
+    //             for (var g = 0; g<mesage_obj.values.length; g++){
 
                 
-                    var scope_var_key = Object.keys(mesage_obj.values[g])[0]
-                    //console.log(scope_var_key)
-                    var max = $scope[scope_var_key].max
-                    var max = max + (max*.05)
-                    var min = $scope[scope_var_key].min
-                    var min = min - (max*.05)
-                    var offset = Math.floor(max * .1)
-                    $scope[scope_var_key].val = Math.floor(Math.random() * (max - min) + min);
-                    $scope[scope_var_key].status_style = $scope.get_status($scope[scope_var_key].val,$scope[scope_var_key].max,$scope[scope_var_key].min);
-                    //console.log($scope[scope_var_key].status_style)
-                    //console.log($scope.VNM_posX.val)
-                    //$scope.d3_api.refresh();
+    //                 var scope_var_key = Object.keys(mesage_obj.values[g])[0]
+    //                 //console.log(scope_var_key)
+    //                 var max = $scope[scope_var_key].max
+    //                 var max = max + (max*.05)
+    //                 var min = $scope[scope_var_key].min
+    //                 var min = min - (max*.05)
+    //                 var offset = Math.floor(max * .1)
+    //                 $scope[scope_var_key].val = Math.floor(Math.random() * (max - min) + min);
+    //                 $scope[scope_var_key].status_style = $scope.get_status($scope[scope_var_key].val,$scope[scope_var_key].max,$scope[scope_var_key].min);
+    //                 //console.log($scope[scope_var_key].status_style)
+    //                 //console.log($scope.VNM_posX.val)
+    //                 //$scope.d3_api.refresh();
 
-                }
-            }
-        }
-        // for(var b = 0; b<parser_keys.length; b++){
-        //     message = parser_keys
-        //     for(var c = 0 c<parser_keys){
+    //             }
+    //         }
+    //     }
+    //     // for(var b = 0; b<parser_keys.length; b++){
+    //     //     message = parser_keys
+    //     //     for(var c = 0 c<parser_keys){
 
-        //     }
-        // }
-       update_chart_values();
-       $scope.$apply(); // update both chart
-       // $scope.d3_api.refresh();
-    }, 500);
+    //     //     }
+    //     // }
+    //    update_chart_values();
+    //    $scope.$apply(); // update both chart
+    //    // $scope.d3_api.refresh();
+    // }, 500);
 //////////////////////////VSM////////////////////////////
 
         $scope.VSM_T_HV1 = {}
@@ -592,9 +602,9 @@ $scope.get_progress();
 
 var add_message_to_array = function(data){
     if ($scope.messages.length > 30){
-        $scope.messages.length.shift();
+        $scope.messages.shift();
     }
-    $scope.messages.append({
+    $scope.messages.push({
                             timestamp: new Date(parseInt(data[0])),
                             sid:data[1],
                             type:data[2],
@@ -602,39 +612,39 @@ var add_message_to_array = function(data){
                         })
 }
 
-$riffle.subscribe("can", function(data) {
+$riffle.subscribe("data", function(data) {
+    console.log("got parsed data")
     //Data will be in the format [[timestamp, sid, message type, data]]
     //console.log(data)
     for (var i = 0; i<data.length; i++){
-        var sid = data[i][1]
-        var message_type = data[i][2]
-        var value = data[i][3]
-
-    //Parse Value
-        var prev_index = 0
-        for (var a = 0; a < $scope.paser[message_type].values.length; a++){
-
-            var value_label = Object.key($scope.paser[message_type].values[a])[0]
-            var next_index = prev_index + ($scope.paser[message_type].values[a].byte_size * 2)
-            var parsed_data_in_hex = value.substring(prev_index, next_index-1);
-            var scalar = $scope.paser[message_type].values[a].scalar
-
-            $scope.parser[value_label].val = parseInt(parsed_data_in_hex,16) * scalar
-            $scope.parser[value_label].status_style = $scope.get_status(value_label)
-
-            if ($scope.parser[value_label].name === 'heartbeat'){
-                $scope.update_status(sid,value)
-            }
-
-            prev_index = prev_index + next_index
+        var msg = data[i]
+        var sid = msg[1]
+        var msg_type = msg[2]
+        var msg_spec = $scope.parser.messages[msg_type]
+        for (var j = 0; j<msg_spec.values.length; j++){
+            var data_val_title = msg_spec.values[j].title
+            $scope[data_val_title].val = msg[3+j]
+            $scope[data_val_title].status_style = $scope.get_status($scope[data_val_title].val,$scope[data_val_title].max, $scope[data_val_title].min)
+            //console.log("updated: "+ data_val_title +" to: " +data[i][3+j])
         }
-        //May want to determine status and color values here or inline html
-        add_message_to_array(data[i])
-        console.log($scope[data_label])
     }
-    //Add messages to messages arra
+    update_chart_values()
+    $scope.$apply()
+    //Add messages to messages array?
 });
 
+$riffle.subscribe("hb", function(data) {
+    var modules = Object.keys(data['modules'])
+    for (var f = 0; f<modules.length; f++){
+        console.log(modules[f])
+        $scope[modules[f]] = data['modules'][modules[f]]
+    }
+    console.log($scope[modules[f]])
+    //Data will be in the format [[timestamp, sid, message type, data]]
+    //console.log(data)
+    $scope.$apply()
+    //Add messages to messages array?
+});
  
         /*Random Data Generator */
         function sinAndCos() {
