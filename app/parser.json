@@ -5,6 +5,7 @@
 			"name" : "heartbeat",
 			"module" : "ALL",
 			"byte_length": 3,
+			"cmd": true,
 			"values": [
 					{"prev_state":{ 
 						"byte_size":1,
@@ -37,7 +38,7 @@
 					{"hello!":{ 
 						"byte_size":7,
 						"scalar":1,
-						"units":"",
+						"units":"str",
 						"nominal_high": "hello!",
 						"nominal_low": "hello!"}
 					}
@@ -51,7 +52,7 @@
 					{"gotmsg":{ 
 						"byte_size":8,
 						"scalar":1,
-						"units":"",
+						"units":"str",
 						"nominal_low": "gotmsg",
 						"nominal_high": "gotmsg"}
 					}
@@ -65,7 +66,7 @@
 					{"gotmsg":{ 
 						"byte_size":8,
 						"scalar":1,
-						"units":"",
+						"units":"str",
 						"nominal_low": "vX.X.X",
 						"nominal_high": "vX.X.X"}
 					}
@@ -80,8 +81,8 @@
 						"byte_size":1,
 						"scalar":1,
 						"units":"",
-						"nominal_low": "",
-						"nominal_high": ""}
+						"nominal_low": 0,
+						"nominal_high": 0}
 					},
 					{"previous_state":{ 
 						"byte_size":1,

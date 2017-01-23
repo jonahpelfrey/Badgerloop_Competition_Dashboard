@@ -85,7 +85,7 @@
          <h4>Roll</h4>
          <!-- <canvas gauge-js options="guageOptions" ng-model="roll" style="width: 100%; height 100%"></canvas> -->
         <div ng-radial-gauge ranges="roll_ranges" value="VNM_roll.val || 0" value-unit="unit" 
-            precision="precision" lower-limit="lowerLimit" upper-limit="upperLimit">
+            precision="precision" lower-limit="lowerLimit" upper-limit="upperLimit" transitionMs="1">
          </div>
          <h4>{{VNM_roll.val}}&deg</h4>
     </div>
@@ -95,7 +95,7 @@
          <h4>Pitch</h4>
          <!-- <canvas gauge-js options="guageOptions" ng-model="pitch" style="width: 100%; height 100%"></canvas> -->
         <div ng-radial-gauge ranges="pitch_ranges" value="VNM_pitch.val || 0" value-unit="unit" 
-            precision="precision" lower-limit="lowerLimit" upper-limit="upperLimit">
+            precision="precision" lower-limit="lowerLimit" upper-limit="upperLimit" transitionMs="1">
          </div>
          <h4>{{VNM_pitch.val}}&deg</h4>
     </div>
@@ -105,7 +105,7 @@
          <h4>Yaw</h4>
          <!-- <canvas gauge-js options="guageOptions" ng-model="yaw" style="width: 100%; height 100%"></canvas> -->
          <div ng-radial-gauge ranges="yaw_ranges" value="VNM_yaw.val || 0" value-unit="unit" 
-            precision="precision" lower-limit="lowerLimit" upper-limit="upperLimit">
+            precision="precision" lower-limit="lowerLimit" upper-limit="upperLimit" transitionMs="1">
          </div>
          <h4>{{VNM_yaw.val}}&deg</h4>
     </div>

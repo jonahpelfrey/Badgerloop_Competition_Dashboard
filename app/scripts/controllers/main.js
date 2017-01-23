@@ -233,9 +233,9 @@ angular.module('sbAdminApp')
     $scope.status_bar_data = {
             "title": "Progress",
             "subtitle": "Distance m",
-            "ranges": [500,800,1700],
+            "ranges": [548.64,701.04,1609,1700],
             "measures": [($scope.VNM_posX.val || 0)], //Get exact distances for each phase
-            "markers": [500,800,1700]
+            "markers": [548.64,701.04,1609,1700]
     };
 
     $scope.noGradient = false;
