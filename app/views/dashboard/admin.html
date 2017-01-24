@@ -99,9 +99,9 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="message in sentMessages | orderBy: sentSortType:sentSortReverse">
-                            <td><span class="label label-info">{{message.timestamp}}</span></td>
+                            <td>{{message.timestamp}}</td>
                             <td>{{message.sid}}</td>
-                            <td>{{message.type}}</td>
+                            <td><span class="label label-info">{{message.type}}</span></td>
                             <td>{{message.data}}</td>
                             </tr>
                         </tbody>

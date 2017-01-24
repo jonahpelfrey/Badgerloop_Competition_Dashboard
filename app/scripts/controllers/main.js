@@ -27,8 +27,11 @@ angular.module('sbAdminApp')
                 {name:'COAST',value: '04',level: 'success'},
                 {name:'BRAKING',value: '05',level: 'warning'}, 
                 {name:'EMERGENCY_BRAKING' ,value: '06',level: 'danger'},
-                {name:'SAFE' ,value: '07',level: 'info'}
-                ]//Add the other states
+                {name:'FRONT_AXLE_BRAKING' ,value: '07',level: 'danger'},
+                {name:'REAR_AXLE_BRAKING' ,value: '08',level: 'danger'},
+                {name:'WAITING_FOR_SAFE' ,value: '09',level: 'warning'},
+                {name:'SAFE' ,value: '0A',level: 'success'}
+                ]
 
     var set_up_scope = function(parser){
         for ( var i = 0; i< parser.messages.length; i++){
@@ -39,10 +42,10 @@ angular.module('sbAdminApp')
                     $scope.msgTypes.push(comand)
             }
             else {
-                for (var j = 0; j < message.values.length; j++){
+                for (var g = 0; g < message.values.length; g++){
                     //console.log(parser.msg_type[key].values[i])
                     //console.log(value_name)
-                    var value = message.values[j]
+                    var value = message.values[g]
                     $scope[value.title] = {
                                             max: value.nominal_high,
                                             min: value.nominal_low,
@@ -163,8 +166,10 @@ angular.module('sbAdminApp')
             // else{
                 endpoint = 'cmd'
                 //TODO implement SID generator
-                message = $scope.custSid+"#"+ $scope.selectedType.msg_type + $scope.customData
+
+                message = $scope.custSid+"#"+ $scope.selectedType.hex + $scope.customData
                 console.log("Custom message to be sent: " + message)
+                $scope.sentMessages.push({timestamp: new Date().getTime(),sid: $scope.custSid,type: $scope.selectedType.name ,data: $scope.customData })
             // }
             //Implement this
         }
@@ -202,8 +207,6 @@ angular.module('sbAdminApp')
 /////////////Telemetry////////////////////////
     var chart = nv.models.bulletChart();
     $scope.progress = [];
-
-    $scope.data = sinAndCos(); //data for graph
 
     //Guage options
     $scope.valueFontColor = 'red';
@@ -600,15 +603,20 @@ $scope.get_progress = function() {
 
 $scope.get_progress();
 
-var add_message_to_array = function(data){
-    if ($scope.messages.length > 30){
+var add_message_to_array = function(msg){
+    if ($scope.messages.length > 30){ //Limit number of messages in array to conserve memory
         $scope.messages.shift();
     }
+    var timestamp = new Date(parseFloat(msg[0]))
+    var sid = msg[1]
+    var type = msg[2]
+    msg.splice(0,3)
+    console.log(msg)
     $scope.messages.push({
-                            timestamp: new Date(parseInt(data[0])),
-                            sid:data[1],
-                            type:data[2],
-                            data:data[3]
+                            timestamp: timestamp,
+                            sid:sid,
+                            type:type,
+                            data:msg
                         })
 }
 
@@ -618,6 +626,7 @@ $riffle.subscribe("data", function(data) {
     //console.log(data)
     for (var i = 0; i<data.length; i++){
         var msg = data[i]
+        console.log(msg)
         var sid = msg[1]
         var msg_type = msg[2]
         var msg_spec = $scope.parser.messages[msg_type]
@@ -625,9 +634,11 @@ $riffle.subscribe("data", function(data) {
             var data_val_title = msg_spec.values[j].title
             $scope[data_val_title].val = msg[3+j]
             $scope[data_val_title].status_style = $scope.get_status($scope[data_val_title].val,$scope[data_val_title].max, $scope[data_val_title].min)
+            add_message_to_array(msg)
             //console.log("updated: "+ data_val_title +" to: " +data[i][3+j])
         }
     }
+    add_message_to_array(data)
     update_chart_values()
     $scope.$apply()
     //Add messages to messages array?
@@ -639,50 +650,15 @@ $riffle.subscribe("hb", function(data) {
         console.log(modules[f])
         $scope[modules[f]] = data['modules'][modules[f]]
     }
-    console.log($scope[modules[f]])
+    console.log(data)
     //Data will be in the format [[timestamp, sid, message type, data]]
     //console.log(data)
     $scope.$apply()
     //Add messages to messages array?
 });
- 
-        /*Random Data Generator */
-        function sinAndCos() {
-            var sin = [],sin2 = [],
-                cos = [];
-
-            //Data is represented as an array of {x,y} pairs.
-            for (var i = 0; i < 100; i++) {
-                sin.push({x: i, y: Math.sin(i/10)});
-                sin2.push({x: i, y: i % 10 == 5 ? null : Math.sin(i/10) *0.25 + 0.5});
-                cos.push({x: i, y: .5 * Math.cos(i/10+ 2) + Math.random() / 10});
-            }
-
-            //Line chart data should be sent as an array of series objects.
-            return [
-                {
-                    values: sin,      //values - represents the array of {x,y} data points
-                    key: 'Sine Wave', //key  - the name of the series.
-                    color: '#ff7f0e'  //color - optional: choose your own line color.
-                },
-                {
-                    values: cos,
-                    key: 'Cosine Wave',
-                    color: '#2ca02c'
-                }
-                // {
-                //     values: sin2,
-                //     key: 'Another sine wave',
-                //     color: '#7777ff'
-                // }
-            ];
-        };
-    
     
 
 //////////////////////////GUAGE CONGFIGURAION///////////////////////////
-    $scope.VNM_roll = {}
-    // $scope.roll = $scope.VNM_roll.val || 0
     $scope.upperLimit = 25;
     $scope.lowerLimit = -25;
     $scope.unit = "";
