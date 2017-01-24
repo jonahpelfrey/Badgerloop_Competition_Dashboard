@@ -8,6 +8,7 @@ import json
 import math
 import struct
 import binascii
+import re
 
 parser = argparse.ArgumentParser(description="A script for converting raw can messages to correct values")
 parser.add_argument('-p','--parser',default='../app/parser.json',help="Location of parser json file",metavar="parser")
@@ -34,14 +35,15 @@ class spammer(riffle.Domain):
 
             converted_data = [ts,sid,msg_type]
             message_spec = parser['messages'][msg_type]
-            index = 0
+            bytes = re.findall('..',data_str )
             for val in message_spec['values']:
-                formatted_val  = round(int(data_str[index:(index+val['byte_size'])],16)*val['scalar'],val['precision'])
+                data_value = bytes[:val['byte_size']]
+                bytes = bytes[val['byte_size']:]
+                formatted_val  = round(int(data_value,16)*val['scalar'],val['precision'])
                 print(formatted_val)
                 converted_data.append(formatted_val)
-                index = index + val['byte_size']
             converted_batch.append(converted_data)
-        print(converted_batch)
+        #print(converted_batch)
         self.publish("data",converted_batch)
 
     def onJoin(self):

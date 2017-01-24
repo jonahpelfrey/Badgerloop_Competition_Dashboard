@@ -103,7 +103,7 @@ angular.module('sbAdminApp')
 ///////////////Admin/////////////////////////////////
     $scope.templates = [{
       label: 'Heartbeat',
-      message: '440#010100000000',
+      message: '440#010101010101',
       endpoint: 'cmd'
     }, {
       label: 'Start',
@@ -634,7 +634,7 @@ $riffle.subscribe("data", function(data) {
             var data_val_title = msg_spec.values[j].title
             $scope[data_val_title].val = msg[3+j]
             $scope[data_val_title].status_style = $scope.get_status($scope[data_val_title].val,$scope[data_val_title].max, $scope[data_val_title].min)
-            add_message_to_array(msg)
+            //add_message_to_array(msg)
             //console.log("updated: "+ data_val_title +" to: " +data[i][3+j])
         }
     }
